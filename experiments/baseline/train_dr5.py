@@ -28,6 +28,8 @@ warnings.filterwarnings("ignore")
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT_DIR / "data" / "DR-5"
+CHECKPOINT_DIR = ROOT_DIR / "checkpoints" / "baseline" / "dr5"
+CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ============================================================
@@ -386,6 +388,20 @@ for repeat_i in range(num_repeats):
                         evaluator_model.state_dict()
                     )
 
+                    torch.save(
+                        {
+                            "model_state_dict": evaluator_model_last.state_dict(),
+                            "best_acc_hm": best_acc_temp,
+                            "repeat_i": repeat_i,
+                            "human_repeat_id": human_repeat_id,
+                            "nums_limit": nums_limit,
+                        },
+                        CHECKPOINT_DIR / (
+                            f"evaluator_repeat_{repeat_i}_"
+                            f"human_{human_repeat_id}_"
+                            f"limit_{nums_limit}.pt"
+                        ),
+                    )
 
                 if acc_m > best_acc_temp_cm:
 
