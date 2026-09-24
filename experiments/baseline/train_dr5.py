@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+# Project root
+ROOT_DIR = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT_DIR))
+
 import torchvision
 from torch import nn
 import os
@@ -9,7 +16,6 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from tqdm import tqdm
 from PIL import Image
 import warnings
-from pathlib import Path
 
 from src.baseline.utils import *
 
