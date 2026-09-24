@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/*
+!data/README.md
+
+# Model checkpoints
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# Experiment outputs
+results/
+plots/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Kaggle
+kaggle.json
