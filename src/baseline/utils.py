@@ -14,7 +14,7 @@ from torchvision.datasets import ImageFolder
 from torchvision import transforms
 import json
 import torch.nn as nn
-from conf import *
+from .conf import *
 from sklearn.metrics import confusion_matrix
 import torch.nn.functional as F
 from torch.utils.data import Subset, DataLoader
