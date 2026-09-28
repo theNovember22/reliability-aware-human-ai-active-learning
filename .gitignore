@@ -12,8 +12,12 @@ env/
 .ipynb_checkpoints/
 
 # Data
+# DR-5 dataset is tracked for reproducible experiments
 data/*
 !data/README.md
+!data/DR-5/
+!data/DR-5/*.csv
+!data/DR-5/*.json
 
 # Model checkpoints
 *.pt
