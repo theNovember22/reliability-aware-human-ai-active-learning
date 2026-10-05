@@ -64,6 +64,7 @@ kaggle.json
 !results/reliability_calibrated/*.pt
 !results/stopping_demo/
 !results/stopping_demo/*.pt
+!results/budget_v2/
 
 # Local credentials
 .env

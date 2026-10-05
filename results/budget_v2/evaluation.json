@@ -1,0 +1,12 @@
+{
+  "test_hashes": {
+    "0": "9c9f10694ee83aa03614ae9395c77994ff9606a8149a5c3c25dcc0aaa3dc14ed",
+    "1": "6c2243ee32b86db55c35ef19dbb3ff1ed7dea4472146a72eb36794b79b405f87",
+    "2": "f67d56e97cc8fea124d2dc0bb44ba8f8edd4f73c4dd7f0b14e6d607eaf130d2d",
+    "3": "59057e7eb5f36875116ace8a0df84e1871366d92003d41e6072ec305d296f58a",
+    "4": "e9a873230a3916c3a979c5d3041f8a587fba382a86bc5a30641ac143691834ad"
+  },
+  "runs": 60,
+  "training_manifest_sha256": "ff6b7ec4a64afe958ad79050a992a17cd00d3ce06a7bacbf74caa4c695f40503",
+  "selection": "No test-based parameter or checkpoint selection; report every predeclared variant."
+}

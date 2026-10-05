@@ -152,6 +152,12 @@ should compare 140-query uncalibrated training as a cost-matched control.
 
 ## How to pursue higher accuracy next
 
+The first budget-preserving implementation of these ideas is now available in
+`run_budget_dr5.py`. See [its method, full comparison and limitations](budget_accuracy.md).
+It reached 60.97% with 40 development queries on the existing exploratory folds;
+the matched random control reached 60.43%. The small gap does not establish an
+active-acquisition advantage.
+
 1. **Use random acquisition as the mandatory benchmark.** The current window
    restriction may exclude useful examples. Test a wider window and a fixed
    random-exploration fraction against the same seeds and total query cost.
@@ -176,8 +182,9 @@ should compare 140-query uncalibrated training as a cost-matched control.
 7. **Verify raw-data provenance before a thesis claim.** Obtain image IDs,
    patient IDs, fold membership and feature-extraction/backbone training scripts.
    Split paired eyes/patients together and generate true out-of-fold AI outputs.
-   To improve the frozen AI's 48.9% accuracy itself requires the images and
-   backbone-training pipeline, beyond the evaluator data provided here.
+   Retraining the image backbone requires original images and its training
+   pipeline. A new classifier head can be fitted to the cached features and
+   known training grades; the new runner includes this as a separate ablation.
 
 Do not promise a target such as 80–90% from MC dropout or the four-module
 framework. A defensible project contribution is an explicit acquisition

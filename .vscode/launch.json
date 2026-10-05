@@ -2,6 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "DR5 budget fusion (40 queries, fold 0, seed 1)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run_budget_dr5.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "args": ["--folds", "0", "--seeds", "1", "--machine", "frozen", "--acquisition", "diverse", "--output", "results/vscode_budget"]
+    },
+    {
       "name": "DR5 baseline (fold 0, seed 1)",
       "type": "debugpy",
       "request": "launch",

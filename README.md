@@ -1,6 +1,13 @@
 # DR5: reproducible ActiveHAI baseline and reliability experiments
 
-Start with **`run_dr5.py`**. The previous scripts in `experiments/baseline/`
+For the new 40-query accuracy experiments, start with **`run_budget_dr5.py`**
+and [the budget-preserving method and results](docs/budget_accuracy.md).
+The frozen-AI + reliability/diversity variant measured **60.97% mean accuracy**
+across five folds and three seeds, versus **60.43%** for its random-query control.
+This meets 60% on the existing exploratory folds; it is not a guarantee on new
+data or proof that active acquisition reliably beats random.
+
+Use **`run_dr5.py`** for the corrected neural MWAC baseline. The previous scripts in `experiments/baseline/`
 are preserved as historical code; they contain test-driven selection and are
 not the recommended experiment entry point.
 
@@ -39,6 +46,34 @@ python3 -m venv .venv
 
 CPU is sufficient for these cached features. `--device cuda` is optional if
 your installed PyTorch supports your GPU. Image training is not included.
+
+## New budget-preserving accuracy experiment
+
+The new runner replaces the high-dimensional evaluator with a smoothed expert
+confusion model, tunes fusion using only already-queried responses, and combines
+expected information with feature diversity and 25% random exploration.
+The default endpoint is **40 development expert predictions**, with no extra
+expert responses for validation/calibration. A doctor prediction is still
+required for each case at evaluation/deployment, as in the original protocol.
+
+```powershell
+# Single-fold smoke run (not an estimate of the five-fold mean)
+.\.venv\Scripts\python.exe run_budget_dr5.py --folds 0 --seeds 1 --machine frozen --acquisition diverse --output results/my_budget_smoke
+
+# Full predeclared comparison: four variants x five folds x three seeds
+.\.venv\Scripts\python.exe run_budget_dr5.py --phase train --output results/my_budget_comparison
+.\.venv\Scripts\python.exe run_budget_dr5.py --phase evaluate --output results/my_budget_comparison
+```
+
+The defaults compare frozen/probe machine predictions and random/diverse
+acquisition. All training completes before test evaluation. Completed outputs
+cannot be overwritten. Each new run needs a fresh output directory.
+The feature probe consumes existing known ground-truth grades, not additional
+expert responses; it did not improve this comparison. To reproduce the tested
+environment, install `requirements-tested.txt` in a Python 3.11 environment.
+
+Saved [results](results/budget_v2/report.md), query traces, models, predictions,
+source/data hashes and paired-fold comparisons are in `results/budget_v2/`.
 
 ## Reproduce the measured experiments
 
