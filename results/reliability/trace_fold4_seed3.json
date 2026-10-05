@@ -1,0 +1,537 @@
+[
+  {
+    "budget": 2,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 2,
+      "active_human_queries": 10,
+      "extra_human_queries": 0,
+      "total_human_queries": 10,
+      "train_loss": 0.13945019245147705,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    },
+    "next_ids": [
+      718,
+      394,
+      306,
+      797,
+      706
+    ],
+    "acquisition_signals": [
+      {
+        "class": 0,
+        "counterfactual_failure_frequency": 0.10000000149011612,
+        "mi": 0.012141108512878418,
+        "candidate_count": 100
+      },
+      {
+        "class": 1,
+        "counterfactual_failure_frequency": 0.949999988079071,
+        "mi": 0.014934182167053223,
+        "candidate_count": 100
+      },
+      {
+        "class": 2,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.004697322845458984,
+        "candidate_count": 100
+      },
+      {
+        "class": 3,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.004216820001602173,
+        "candidate_count": 100
+      },
+      {
+        "class": 4,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.011078953742980957,
+        "candidate_count": 100
+      }
+    ]
+  },
+  {
+    "budget": 3,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453,
+      718,
+      394,
+      306,
+      797,
+      706
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 3,
+      "active_human_queries": 15,
+      "extra_human_queries": 0,
+      "total_human_queries": 15,
+      "train_loss": 0.21715590357780457,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    },
+    "next_ids": [
+      528,
+      268,
+      128,
+      84,
+      85
+    ],
+    "acquisition_signals": [
+      {
+        "class": 0,
+        "counterfactual_failure_frequency": 0.25,
+        "mi": 0.014230966567993164,
+        "candidate_count": 100
+      },
+      {
+        "class": 1,
+        "counterfactual_failure_frequency": 0.75,
+        "mi": 0.011975646018981934,
+        "candidate_count": 100
+      },
+      {
+        "class": 2,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.0054326653480529785,
+        "candidate_count": 100
+      },
+      {
+        "class": 3,
+        "counterfactual_failure_frequency": 0.05000000074505806,
+        "mi": 0.009944915771484375,
+        "candidate_count": 100
+      },
+      {
+        "class": 4,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.00292205810546875,
+        "candidate_count": 100
+      }
+    ]
+  },
+  {
+    "budget": 4,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453,
+      718,
+      394,
+      306,
+      797,
+      706,
+      528,
+      268,
+      128,
+      84,
+      85
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 4,
+      "active_human_queries": 20,
+      "extra_human_queries": 0,
+      "total_human_queries": 20,
+      "train_loss": 0.264497309923172,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    },
+    "next_ids": [
+      272,
+      135,
+      723,
+      301,
+      705
+    ],
+    "acquisition_signals": [
+      {
+        "class": 0,
+        "counterfactual_failure_frequency": 1.0,
+        "mi": 0.015581011772155762,
+        "candidate_count": 100
+      },
+      {
+        "class": 1,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.010496020317077637,
+        "candidate_count": 100
+      },
+      {
+        "class": 2,
+        "counterfactual_failure_frequency": 1.0,
+        "mi": 0.007997632026672363,
+        "candidate_count": 100
+      },
+      {
+        "class": 3,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.007578134536743164,
+        "candidate_count": 100
+      },
+      {
+        "class": 4,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.006015032529830933,
+        "candidate_count": 100
+      }
+    ]
+  },
+  {
+    "budget": 5,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453,
+      718,
+      394,
+      306,
+      797,
+      706,
+      528,
+      268,
+      128,
+      84,
+      85,
+      272,
+      135,
+      723,
+      301,
+      705
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 5,
+      "active_human_queries": 25,
+      "extra_human_queries": 0,
+      "total_human_queries": 25,
+      "train_loss": 0.4812272787094116,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    },
+    "next_ids": [
+      335,
+      639,
+      784,
+      611,
+      207
+    ],
+    "acquisition_signals": [
+      {
+        "class": 0,
+        "counterfactual_failure_frequency": 0.44999998807907104,
+        "mi": 0.012832939624786377,
+        "candidate_count": 100
+      },
+      {
+        "class": 1,
+        "counterfactual_failure_frequency": 0.75,
+        "mi": 0.011519372463226318,
+        "candidate_count": 100
+      },
+      {
+        "class": 2,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.011459708213806152,
+        "candidate_count": 100
+      },
+      {
+        "class": 3,
+        "counterfactual_failure_frequency": 0.699999988079071,
+        "mi": 0.01669323444366455,
+        "candidate_count": 100
+      },
+      {
+        "class": 4,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.007579296827316284,
+        "candidate_count": 100
+      }
+    ]
+  },
+  {
+    "budget": 6,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453,
+      718,
+      394,
+      306,
+      797,
+      706,
+      528,
+      268,
+      128,
+      84,
+      85,
+      272,
+      135,
+      723,
+      301,
+      705,
+      335,
+      639,
+      784,
+      611,
+      207
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 6,
+      "active_human_queries": 30,
+      "extra_human_queries": 0,
+      "total_human_queries": 30,
+      "train_loss": 0.603595495223999,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    },
+    "next_ids": [
+      154,
+      198,
+      243,
+      517,
+      299
+    ],
+    "acquisition_signals": [
+      {
+        "class": 0,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.008716583251953125,
+        "candidate_count": 100
+      },
+      {
+        "class": 1,
+        "counterfactual_failure_frequency": 0.4000000059604645,
+        "mi": 0.009494900703430176,
+        "candidate_count": 100
+      },
+      {
+        "class": 2,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.006578922271728516,
+        "candidate_count": 100
+      },
+      {
+        "class": 3,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.0133591890335083,
+        "candidate_count": 100
+      },
+      {
+        "class": 4,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.002517789602279663,
+        "candidate_count": 100
+      }
+    ]
+  },
+  {
+    "budget": 7,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453,
+      718,
+      394,
+      306,
+      797,
+      706,
+      528,
+      268,
+      128,
+      84,
+      85,
+      272,
+      135,
+      723,
+      301,
+      705,
+      335,
+      639,
+      784,
+      611,
+      207,
+      154,
+      198,
+      243,
+      517,
+      299
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 7,
+      "active_human_queries": 35,
+      "extra_human_queries": 0,
+      "total_human_queries": 35,
+      "train_loss": 0.5425205826759338,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    },
+    "next_ids": [
+      16,
+      434,
+      50,
+      667,
+      88
+    ],
+    "acquisition_signals": [
+      {
+        "class": 0,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.006826460361480713,
+        "candidate_count": 100
+      },
+      {
+        "class": 1,
+        "counterfactual_failure_frequency": 0.44999998807907104,
+        "mi": 0.011490225791931152,
+        "candidate_count": 100
+      },
+      {
+        "class": 2,
+        "counterfactual_failure_frequency": 0.10000000149011612,
+        "mi": 0.011442422866821289,
+        "candidate_count": 100
+      },
+      {
+        "class": 3,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.0007642507553100586,
+        "candidate_count": 100
+      },
+      {
+        "class": 4,
+        "counterfactual_failure_frequency": 0.0,
+        "mi": 0.001001313328742981,
+        "candidate_count": 100
+      }
+    ]
+  },
+  {
+    "budget": 8,
+    "selected_ids": [
+      603,
+      471,
+      573,
+      527,
+      448,
+      481,
+      343,
+      136,
+      445,
+      453,
+      718,
+      394,
+      306,
+      797,
+      706,
+      528,
+      268,
+      128,
+      84,
+      85,
+      272,
+      135,
+      723,
+      301,
+      705,
+      335,
+      639,
+      784,
+      611,
+      207,
+      154,
+      198,
+      243,
+      517,
+      299,
+      16,
+      434,
+      50,
+      667,
+      88
+    ],
+    "record": {
+      "fold": 4,
+      "seed": 3,
+      "mode": "reliability",
+      "labels_per_class": 8,
+      "active_human_queries": 40,
+      "extra_human_queries": 0,
+      "total_human_queries": 40,
+      "train_loss": 0.49413126707077026,
+      "ai_temperature": 0.56120077663531,
+      "fusion_temperature": 1.0,
+      "stopped": false
+    }
+  }
+]

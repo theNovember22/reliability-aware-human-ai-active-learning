@@ -1,42 +1,13 @@
-\# Dataset
+# Dataset
 
+`DR-5/` is tracked in this repository. It contains five pairs of cached
+train/test CSVs, not original retinal images.
 
+Required columns: `Logits`, `True Label`, `Human Label`, `Feat`.
+Despite its name, `Logits` contains five normalized probabilities. `Feat`
+contains 512 comma-separated floats. Labels are integers 0 through 4.
+Each train file has 800 rows and each test file 200 rows, with balanced classes.
 
-This directory contains datasets used for the experiments.
-
-
-
-The datasets are not committed to GitHub.
-
-
-
-Datasets used in this project include:
-
-
-
-\- MZ-10
-
-\- DR-5
-
-\- Chaoyang
-
-
-
-The datasets should be downloaded from their original sources and placed
-
-in the appropriate directory structure before running experiments.
-
-
-
-Expected structure:
-
-
-
-data/
-
-├── MZ-10/
-
-├── DR-5/
-
-└── Chaoyang/
-
+The existing JSON files are retained but not required by the corrected runner.
+CSV files have no sample/patient IDs, so patient-disjointness and backbone
+training provenance cannot be verified from them alone.

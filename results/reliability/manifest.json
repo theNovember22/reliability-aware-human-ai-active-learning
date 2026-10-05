@@ -1,0 +1,59 @@
+{
+  "config": {
+    "data_dir": "/workspace/scratch/8ba4844b9686/reliability-aware-human-ai-active-learning/data/DR-5",
+    "output": "results/reliability",
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "mode": "reliability",
+    "epochs": 100,
+    "max_labels": 8,
+    "lr": 0.0003,
+    "dropout": 0.1,
+    "weight_decay": 0.0,
+    "mc_passes": 20,
+    "ai_calibration": "temperature",
+    "calibration_per_class": 20,
+    "fusion_calibration": false,
+    "validation_per_class": 0,
+    "stop_patience": 0,
+    "stop_min_delta": 0.001,
+    "candidates": 100,
+    "window_start": 55,
+    "window_length": 5,
+    "device": "cpu",
+    "threads": 1,
+    "audit_only": false
+  },
+  "base_commit": "4ee0bc87384bf2247250d87843936c6c26aa355a",
+  "python": "3.12.14",
+  "torch": "2.14.1+cpu",
+  "numpy": "2.3.5",
+  "source_hashes": {
+    "run_dr5.py": "91c0564f95ff88578037dd9747c19b75b8142edb9929ef375d1b0f017a2aa8c8",
+    "src/dr5/core.py": "2de07f288f2a60ed2a6e2230fe88c1704bee5a73eec8f643c169dcbb17c5f33f"
+  },
+  "data_hashes": {
+    "model_output_0_train.csv": "e86d32eca52eb9537290b6ecaa76b73b4f6f69ad5fb125f18f4c43068c927295",
+    "model_output_0_test.csv": "9c9f10694ee83aa03614ae9395c77994ff9606a8149a5c3c25dcc0aaa3dc14ed",
+    "model_output_1_train.csv": "684b800c95048c0d9db5eab8349385d965b7050565899718035014c8d424b3a2",
+    "model_output_1_test.csv": "6c2243ee32b86db55c35ef19dbb3ff1ed7dea4472146a72eb36794b79b405f87",
+    "model_output_2_train.csv": "eb734ceaaa75851489726a9c6004780d35f2effa312bf8ed771ea7be2d575f09",
+    "model_output_2_test.csv": "f67d56e97cc8fea124d2dc0bb44ba8f8edd4f73c4dd7f0b14e6d607eaf130d2d",
+    "model_output_3_train.csv": "7a0e15a33758a34bd88820a1f7884a0384afa449a8959780966eec93ffa2fbad",
+    "model_output_3_test.csv": "59057e7eb5f36875116ace8a0df84e1871366d92003d41e6072ec305d296f58a",
+    "model_output_4_train.csv": "cbafb6a29b9f8ce52695a77350b9b736291742a924306625c0dd9c924a264f80",
+    "model_output_4_test.csv": "e9a873230a3916c3a979c5d3041f8a587fba382a86bc5a30641ac143691834ad"
+  },
+  "test_usage": "Final metrics only; no checkpoint, acquisition, temperature or stopping decisions",
+  "limitation": "No sample/patient IDs or backbone training provenance in supplied CSVs"
+}

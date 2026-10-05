@@ -27,7 +27,7 @@ data/*
 *.safetensors
 
 # Experiment outputs
-results/
+results/*
 plots/
 
 # Logs
@@ -38,8 +38,34 @@ plots/
 Thumbs.db
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/launch.json
 .idea/
 
 # Kaggle
 kaggle.json
+
+# Preserve the supplied completed experiments and their checkpoints.
+!results/baseline/
+!results/baseline/*.pt
+!results/baseline_smoke/
+!results/baseline_smoke/*.pt
+!results/baseline_uncalibrated/
+!results/baseline_uncalibrated/*.pt
+!results/data_audit/
+!results/data_audit/*.pt
+!results/mc/
+!results/mc/*.pt
+!results/random/
+!results/random/*.pt
+!results/reliability/
+!results/reliability/*.pt
+!results/reliability_calibrated/
+!results/reliability_calibrated/*.pt
+!results/stopping_demo/
+!results/stopping_demo/*.pt
+
+# Local credentials
+.env
+.env.*
+!.env.example

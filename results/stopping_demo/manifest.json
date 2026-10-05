@@ -1,0 +1,45 @@
+{
+  "config": {
+    "data_dir": "/workspace/scratch/8ba4844b9686/reliability-aware-human-ai-active-learning/data/DR-5",
+    "output": "results/stopping_demo",
+    "folds": [
+      0
+    ],
+    "seeds": [
+      1
+    ],
+    "mode": "reliability",
+    "epochs": 100,
+    "max_labels": 8,
+    "lr": 0.0003,
+    "dropout": 0.1,
+    "weight_decay": 0.0,
+    "mc_passes": 20,
+    "ai_calibration": "temperature",
+    "calibration_per_class": 20,
+    "fusion_calibration": false,
+    "validation_per_class": 10,
+    "stop_patience": 2,
+    "stop_min_delta": 0.001,
+    "candidates": 100,
+    "window_start": 55,
+    "window_length": 5,
+    "device": "cpu",
+    "threads": 1,
+    "audit_only": false
+  },
+  "base_commit": "4ee0bc87384bf2247250d87843936c6c26aa355a",
+  "python": "3.12.14",
+  "torch": "2.14.1+cpu",
+  "numpy": "2.3.5",
+  "source_hashes": {
+    "run_dr5.py": "91c0564f95ff88578037dd9747c19b75b8142edb9929ef375d1b0f017a2aa8c8",
+    "src/dr5/core.py": "2de07f288f2a60ed2a6e2230fe88c1704bee5a73eec8f643c169dcbb17c5f33f"
+  },
+  "data_hashes": {
+    "model_output_0_train.csv": "e86d32eca52eb9537290b6ecaa76b73b4f6f69ad5fb125f18f4c43068c927295",
+    "model_output_0_test.csv": "9c9f10694ee83aa03614ae9395c77994ff9606a8149a5c3c25dcc0aaa3dc14ed"
+  },
+  "test_usage": "Final metrics only; no checkpoint, acquisition, temperature or stopping decisions",
+  "limitation": "No sample/patient IDs or backbone training provenance in supplied CSVs"
+}
