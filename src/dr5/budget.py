@@ -183,10 +183,34 @@ def expected_information(model, machine, labels, draws=64, seed=0):
     return utility
 
 
+def expected_failure(model, machine, labels, draws=64, seed=0):
+    """Posterior expected failure frequency with hypothetical expert labels.
+
+    For each candidate, average whether fused argmax is wrong across draws
+    from the queried-label confusion posterior and the fitted P(h|y). The
+    candidate's known pool grade is used for this acquisition proxy; no
+    unqueried doctor response is read.
+    """
+    rng = np.random.default_rng(seed)
+    labels = np.asarray(labels, dtype=int)
+    samples = np.stack([rng.dirichlet(row, size=draws) for row in model.posterior], axis=1)
+    log_p = np.log(np.clip(machine, 1e-12, 1.))
+    weights = model.likelihood[labels]
+    failure = np.zeros(len(machine))
+    for h in range(5):
+        predictions = softmax(
+            log_p[None] + np.log(np.clip(samples[:, None, :, h], 1e-12, 1.)),
+            axis=-1,
+        )
+        failure += weights[:, h] * (predictions.argmax(-1) != labels[None, :]).mean(0)
+    return failure
+
+
 def acquire_budget(model, features_normalized, labels, machine_oof, pool_ids,
                    selected, rng, mode='diverse', exploration=.25, seed=0):
-    """One query/grade: expected information + diversity + random exploration."""
-    if mode not in ('random', 'diverse') or not 0 <= exploration <= 1:
+    """Select one query/grade with a fixed acquisition rule."""
+    modes = ('random', 'mwac', 'mi', 'failure', 'combined', 'diverse')
+    if mode not in modes or not 0 <= exploration <= 1:
         raise ValueError('Invalid acquisition mode or exploration fraction')
     additions, diagnostics = [], []
     selected = np.asarray(selected, dtype=int)
@@ -194,20 +218,51 @@ def acquire_budget(model, features_normalized, labels, machine_oof, pool_ids,
         ids = np.asarray([i for i in pool_ids if labels[i] == c and i not in selected], dtype=int)
         if not len(ids):
             raise ValueError(f'Pool exhausted for grade {c}')
-        if mode == 'random' or rng.random() < exploration:
+        if mode == 'random' or (mode in ('combined', 'diverse') and rng.random() < exploration):
             chosen = int(rng.choice(ids))
             diagnostics.append({'grade': c, 'reason': 'random', 'id': chosen})
+        elif mode == 'mwac':
+            # MWAC-style boundary selection: choose AI predictions whose
+            # probability for the known grade is closest to 0.5.
+            p_true = np.clip(machine_oof[ids, labels[ids]], 0., 1.)
+            distance_to_boundary = np.abs(p_true - .5)
+            ties = np.flatnonzero(np.isclose(distance_to_boundary, distance_to_boundary.min()))
+            chosen = int(ids[rng.choice(ties)])
+            diagnostics.append({'grade': c, 'reason': 'mwac_boundary',
+                                'true_grade_probability': float(machine_oof[chosen, c])})
         else:
-            info = expected_information(model, machine_oof[ids], labels[ids], seed=seed+c)
-            same_class = selected[labels[selected] == c]
-            if not len(same_class):
-                raise ValueError('Initial queries must cover every grade')
-            distance = np.maximum(1 - features_normalized[ids] @ features_normalized[same_class].T, 0).min(1)
-            # Rank averaging has no units and does not privilege larger MI scales.
-            utility = .5*rankdata(info, method='average') + .5*rankdata(distance, method='average')
+            info = None
+            failure = None
+            if mode in ('mi', 'combined', 'diverse'):
+                info = expected_information(model, machine_oof[ids], labels[ids], seed=seed+c)
+            if mode in ('failure', 'combined'):
+                failure = expected_failure(model, machine_oof[ids], labels[ids], seed=seed+100+c)
+            if mode == 'mi':
+                utility = info
+            elif mode == 'failure':
+                utility = failure
+            else:
+                same_class = selected[labels[selected] == c]
+                if not len(same_class):
+                    raise ValueError('Initial queries must cover every grade')
+                distance = np.maximum(1 - features_normalized[ids] @ features_normalized[same_class].T, 0).min(1)
+                if mode == 'diverse':
+                    utility = .5*rankdata(info, method='average') + .5*rankdata(distance, method='average')
+                else:
+                    # Predeclared combined policy: equal rank weights for
+                    # information, expected failure and feature coverage.
+                    utility = (rankdata(info, method='average')
+                               + rankdata(failure, method='average')
+                               + rankdata(distance, method='average')) / 3.
             local = int(rng.choice(np.flatnonzero(np.isclose(utility, utility.max()))))
             chosen = int(ids[local])
-            diagnostics.append({'grade': c, 'reason': 'information_and_diversity', 'id': chosen,
-                                'expected_information': float(info[local]), 'distance': float(distance[local])})
+            diagnostic = {'grade': c, 'reason': mode, 'id': chosen}
+            if info is not None:
+                diagnostic['expected_information'] = float(info[local])
+            if failure is not None:
+                diagnostic['expected_failure'] = float(failure[local])
+            if mode in ('combined', 'diverse'):
+                diagnostic['distance'] = float(distance[local])
+            diagnostics.append(diagnostic)
         additions.append(chosen)
     return additions, diagnostics

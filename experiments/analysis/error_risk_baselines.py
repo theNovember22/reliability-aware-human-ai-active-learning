@@ -1,17 +1,8 @@
+"""Experiment A: compare error-risk scores on DR-5.
 
-%cd /kaggle/working/reliability-aware-human-ai-active-learning
-
-from pathlib import Path
-
-script_path = Path("experiments/analysis/error_risk_baselines.py")
-script_path.parent.mkdir(parents=True, exist_ok=True)
-
-code = r'''
-"""Exploratory AI-error detection baselines for DR-5.
-
-Evaluates maximum-softmax-probability confidence, entropy, and margin.
-Existing test folds were inspected in prior experiments; results are
-exploratory and must not be treated as a confirmatory evaluation.
+The learned score is fit using only each fold's training CSV. A stratified
+training/validation split is used for development assessment. Existing test
+CSVs are reported as exploratory because they have already been inspected.
 """
 
 from pathlib import Path
@@ -19,203 +10,166 @@ import json
 
 import numpy as np
 import pandas as pd
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
-    roc_auc_score,
     average_precision_score,
     brier_score_loss,
+    roc_auc_score,
 )
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "DR-5"
 OUT = ROOT / "results" / "error_risk_baselines"
+SEED = 42
 
 
-def load_fold(fold):
-    path = DATA / f"model_output_{fold}_test.csv"
+def parse_vector(value):
+    return np.fromstring(str(value).strip().strip("[]"), sep=",")
 
+
+def load_fold(fold, split):
+    path = DATA / f"model_output_{fold}_{split}.csv"
     if not path.is_file():
-        raise FileNotFoundError(f"Missing test file: {path}")
-
-    df = pd.read_csv(path)
-
+        raise FileNotFoundError(f"Missing data file: {path}")
+    frame = pd.read_csv(path)
     required = ["Logits", "True Label"]
-    missing = [column for column in required if column not in df.columns]
+    missing = [column for column in required if column not in frame]
     if missing:
         raise ValueError(f"{path} is missing columns: {missing}")
 
-    probabilities = np.stack([
-        np.fromstring(str(value).strip().strip("[]"), sep=",")
-        for value in df["Logits"]
-    ]).astype(np.float64)
-
-    labels = df["True Label"].to_numpy(dtype=int)
-
-    if probabilities.shape != (len(labels), 5):
-        raise ValueError(
-            f"Expected {len(labels)} rows of 5 probabilities; "
-            f"got shape {probabilities.shape} in {path}"
-        )
-
-    if not np.isfinite(probabilities).all():
-        raise ValueError(f"Non-finite probabilities in {path}")
-
-    if (probabilities < 0).any() or (probabilities > 1).any():
-        raise ValueError(f"Probabilities outside [0, 1] in {path}")
-
-    if not np.allclose(probabilities.sum(axis=1), 1.0, atol=1e-5):
-        raise ValueError(
-            f"Rows do not sum to 1 in {path}. "
-            "Check the stored probability format; do not softmax blindly."
-        )
-
+    probs = np.stack([parse_vector(value) for value in frame["Logits"]])
+    labels = frame["True Label"].to_numpy(dtype=int)
+    if probs.shape != (len(frame), 5):
+        raise ValueError(f"{path}: expected five probabilities per row")
+    if not np.isfinite(probs).all() or (probs < 0).any() or (probs > 1).any():
+        raise ValueError(f"{path}: invalid probability values")
+    if not np.allclose(probs.sum(axis=1), 1.0, atol=1e-5):
+        raise ValueError(f"{path}: probability rows do not sum to one")
     if not np.isin(labels, np.arange(5)).all():
-        raise ValueError(f"Unexpected class labels in {path}")
+        raise ValueError(f"{path}: labels must be integers 0 through 4")
 
-    return probabilities, labels
+    pred = probs.argmax(axis=1)
+    error = (pred != labels).astype(int)
+    sorted_probs = np.sort(probs, axis=1)
+    confidence = sorted_probs[:, -1]
+    margin = confidence - sorted_probs[:, -2]
+    entropy = -np.sum(probs * np.log(np.clip(probs, 1e-12, 1.0)), axis=1)
+    # Fixed, interpretable baseline selected a priori: one minus max probability.
+    baseline_risks = {
+        "confidence": 1.0 - confidence,
+        "entropy": entropy,
+        "margin": -margin,
+    }
+    # No Human Label is read or used as a feature.
+    features = np.column_stack([probs, 1.0 - confidence, entropy, -margin])
+    return {"error": error, "baseline_risks": baseline_risks, "features": features}
 
 
-def confidence_ece(confidence, correct, bins=15):
-    """Expected calibration error for confidence predicting correctness."""
+def ece_binary(target, score, bins=10):
+    """Equal-width expected calibration error for predicted error probability."""
     edges = np.linspace(0.0, 1.0, bins + 1)
-    ece = 0.0
-
-    for index in range(bins):
-        if index == bins - 1:
-            mask = (
-                (confidence >= edges[index])
-                & (confidence <= edges[index + 1])
-            )
-        else:
-            mask = (
-                (confidence >= edges[index])
-                & (confidence < edges[index + 1])
-            )
-
+    total = 0.0
+    for i in range(bins):
+        mask = ((score >= edges[i]) & (score <= edges[i + 1])) if i == bins - 1 else (
+            (score >= edges[i]) & (score < edges[i + 1])
+        )
         if mask.any():
-            ece += mask.mean() * abs(
-                correct[mask].mean() - confidence[mask].mean()
-            )
-
-    return float(ece)
+            total += mask.mean() * abs(target[mask].mean() - score[mask].mean())
+    return float(total)
 
 
-def evaluate_fold(fold):
-    probabilities, labels = load_fold(fold)
-
-    predictions = probabilities.argmax(axis=1)
-    correct = (predictions == labels).astype(int)
-    errors = 1 - correct
-
-    sorted_probabilities = np.sort(probabilities, axis=1)
-    top_probability = sorted_probabilities[:, -1]
-    second_probability = sorted_probabilities[:, -2]
-
-    margin = top_probability - second_probability
-
-    entropy = -np.sum(
-        probabilities * np.log(np.clip(probabilities, 1e-12, 1.0)),
-        axis=1,
-    )
-
-    # Higher risk scores must indicate greater estimated error risk.
-    risk_scores = {
-        "confidence_risk": 1.0 - top_probability,
-        "entropy_risk": entropy,
-        "margin_risk": -margin,
+def score_metrics(target, score, calibrated_probability=False):
+    result = {
+        "n": int(len(target)),
+        "error_rate": float(target.mean()),
+        # Ranking scores are not probabilities. Only report probability
+        # calibration metrics for the learned probability output.
+        "brier": float(brier_score_loss(target, score)) if calibrated_probability else float("nan"),
+        "ece_10bin": ece_binary(target, score) if calibrated_probability else float("nan"),
+        "auroc": float(roc_auc_score(target, score)) if np.unique(target).size == 2 else float("nan"),
+        "average_precision": float(average_precision_score(target, score)) if target.sum() else float("nan"),
     }
-
-    row = {
-        "fold": fold,
-        "n": len(labels),
-        "ai_accuracy": float(correct.mean()),
-        "error_rate": float(errors.mean()),
-        "error_count": int(errors.sum()),
-        "confidence_brier": float(
-            brier_score_loss(correct, top_probability)
-        ),
-        "confidence_ece": confidence_ece(top_probability, correct),
-    }
-
-    for name, risk in risk_scores.items():
-        row[f"{name}_auroc"] = (
-            float(roc_auc_score(errors, risk))
-            if len(np.unique(errors)) == 2
-            else float("nan")
+    # Fraction of errors remaining after referring the highest-risk cases.
+    for fraction in (0.1, 0.2, 0.3):
+        n_refer = int(np.ceil(fraction * len(target)))
+        # Refer the highest-risk cases; retain the lowest-risk remainder.
+        keep = np.argsort(score)[: len(target) - n_refer]
+        result[f"residual_error_rate_referral_{int(fraction * 100)}pct"] = (
+            float(target[keep].mean()) if len(keep) else float("nan")
         )
-
-        row[f"{name}_average_precision"] = (
-            float(average_precision_score(errors, risk))
-            if errors.sum() > 0
-            else float("nan")
-        )
-
-    # Random-ranking reference: theoretical AUROC is 0.5.
-    row["random_auroc_reference"] = 0.5
-    row["random_ap_reference"] = float(errors.mean())
-
-    return row
+        result[f"coverage_after_referral_{int(fraction * 100)}pct"] = float(len(keep) / len(target))
+    return result
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    rows = []
+    fold_notes = []
+    for fold in range(5):
+        train = load_fold(fold, "train")
+        test = load_fold(fold, "test")
+        dev_idx, val_idx = train_test_split(
+            np.arange(len(train["error"])), test_size=0.20,
+            random_state=SEED, stratify=train["error"],
+        )
+        model = make_pipeline(
+            StandardScaler(),
+            LogisticRegression(C=1.0, max_iter=3000, random_state=SEED),
+        )
+        model.fit(train["features"][dev_idx], train["error"][dev_idx])
 
-    rows = [evaluate_fold(fold) for fold in range(5)]
+        for split_name, data, indices in (
+            ("validation", train, val_idx),
+            ("test_exploratory", test, np.arange(len(test["error"]))),
+        ):
+            target = data["error"][indices]
+            scores = {name: values[indices] for name, values in data["baseline_risks"].items()}
+            scores["learned_probability"] = model.predict_proba(data["features"][indices])[:, 1]
+            for name, score in scores.items():
+                rows.append({
+                    "fold": fold,
+                    "split": split_name,
+                    "score": name,
+                    **score_metrics(target, score, calibrated_probability=(name == "learned_probability")),
+                })
+        fold_notes.append({
+            "fold": fold,
+            "development_n": int(len(dev_idx)),
+            "validation_n": int(len(val_idx)),
+            "test_n": int(len(test["error"])),
+            "validation_error_rate": float(train["error"][val_idx].mean()),
+            "test_error_rate": float(test["error"].mean()),
+        })
+
     results = pd.DataFrame(rows)
-
     results.to_csv(OUT / "per_fold.csv", index=False)
-
-    metric_columns = [
-        column for column in results.columns
-        if column not in ("fold", "n", "error_count")
-    ]
-
-    summary = results[metric_columns].agg(["mean", "std"]).T
-    summary.columns = ["mean_across_folds", "std_across_folds"]
+    metric_columns = [column for column in results.columns if column not in {"fold", "split", "score", "n"}]
+    summary = results.groupby(["split", "score"])[metric_columns].agg(["mean", "std"])
     summary.to_csv(OUT / "summary.csv")
-
     report = {
-        "purpose": "Exploratory AI-error detection baseline evaluation",
-        "data": "Existing DR-5 test folds",
-        "fold_results": rows,
-        "mean_metrics": {
-            key: float(value)
-            for key, value in results[metric_columns].mean().items()
-        },
+        "experiment": "A: AI error-risk prediction",
+        "target": "1 when argmax of stored AI probabilities differs from True Label",
+        "candidate_score": "learned_probability: logistic regression over probabilities and fixed uncertainty features",
+        "baseline_preferred_for_now": "confidence (1 - maximum class probability); previous validation results favored simple uncertainty baselines",
+        "protocol": "Per fold, fit StandardScaler and fixed-C logistic regression on a stratified 80% subset of training CSV; assess on held-out 20% validation subset.",
+        "test_status": "test_exploratory only: prior test inspection means it is not an untouched confirmatory set",
+        "calibration": "Brier score and 10-bin equal-width ECE; ECE is bin-dependent",
+        "ranking_and_triage": "AUROC, average precision, and residual error rate after referring the top 10/20/30% risk cases",
+        "folds": fold_notes,
         "limitations": [
-            "The existing test folds were inspected in prior experiments.",
-            "These results are exploratory, not confirmatory.",
-            "No learned risk model is fitted in this script.",
-            "Patient-level split independence is not established by this audit.",
-            "Mutual information is not included because this script does not "
-            "load MC Dropout predictions.",
+            "No untouched final test set is available; do not claim confirmatory superiority.",
+            "CSV files contain no patient or image IDs, so patient-disjointness cannot be verified.",
+            "The learned probability is an uncalibrated logistic regression estimate; calibration metrics describe its held-out validation performance.",
+            "The candidate score is not established as superior; use validation results to choose and freeze a score before a new test evaluation.",
         ],
     }
-
-    (OUT / "report.json").write_text(
-        json.dumps(report, indent=2, allow_nan=True)
-    )
-
-    print("\n=== EXPERIMENT A: PER-FOLD RESULTS ===")
-    print(results.round(4).to_string(index=False))
-
-    print("\n=== MEAN AND STANDARD DEVIATION ACROSS FOLDS ===")
-    print(summary.round(4).to_string())
-
+    (OUT / "report.json").write_text(json.dumps(report, indent=2))
+    print(results.groupby(["split", "score"])[["auroc", "average_precision", "brier", "ece_10bin"]].mean().round(4))
     print(f"\nSaved results to: {OUT}")
 
 
 if __name__ == "__main__":
     main()
-'''
-
-script_path.write_text(code, encoding="utf-8")
-print(f"Created: {script_path}")
-
-# Execute the script.
-import subprocess
-import sys
-
-subprocess.run(
-    [sys.executable, str(script_path)],
-    check=True,
-)

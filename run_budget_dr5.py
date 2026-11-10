@@ -22,7 +22,7 @@ def parser():
     p.add_argument('--folds', type=int, nargs='+', default=list(range(5)))
     p.add_argument('--seeds', type=int, nargs='+', default=[1, 2, 3])
     p.add_argument('--machine', choices=['frozen', 'probe', 'both'], default='both')
-    p.add_argument('--acquisition', choices=['random', 'diverse', 'both'], default='both')
+    p.add_argument('--acquisition', choices=['random', 'mwac', 'mi', 'failure', 'combined', 'diverse', 'both', 'ablation'], default='both')
     p.add_argument('--max-labels', type=int, default=8, help='Queries per grade: 8 means 40 total')
     p.add_argument('--exploration', type=float, default=.25)
     p.add_argument('--phase', choices=['train', 'evaluate', 'all'], default='all')
@@ -55,7 +55,9 @@ def train(args):
                 'complete': False}
     write_json(args.output/'manifest.json', manifest)
     machines = ['frozen', 'probe'] if args.machine == 'both' else [args.machine]
-    acquisitions = ['random', 'diverse'] if args.acquisition == 'both' else [args.acquisition]
+    acquisitions = (['random', 'mwac', 'mi', 'failure', 'combined']
+                    if args.acquisition == 'ablation' else
+                    ['random', 'diverse'] if args.acquisition == 'both' else [args.acquisition])
     run_files = []
     for fold in args.folds:
         data = load_csv(args.data_dir/f'model_output_{fold}_train.csv')

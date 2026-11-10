@@ -180,6 +180,45 @@ Neither the 60.97% mean nor the small active/random difference is a fresh
 confirmatory result, a patient-level generalization guarantee, or a clinical
 performance claim.
 
+## Experiment C acquisition ablation
+
+An additional fixed-budget ablation used the frozen AI probabilities,
+40 expert queries (eight per grade), five existing folds and three seeds.
+All 75 runs completed training before test evaluation. Each run used the same
+fusion model, query budget and initial per-grade selections. Results are means
+over 15 fold/seed runs; the existing test folds have already been inspected,
+so these results are exploratory.
+
+| Acquisition | Accuracy (%) | Macro-F1 | ECE | Queries |
+|---|---:|---:|---:|---:|
+| Random | 60.43 +/- 2.96 | 0.6012 | 0.1040 | 40 |
+| MWAC-style boundary proxy | 58.47 +/- 3.10 | 0.5825 | 0.0965 | 40 |
+| Expected information (MI) | 60.93 +/- 2.40 | 0.6049 | 0.1475 | 40 |
+| Expected failure proxy | 60.80 +/- 2.91 | 0.6040 | 0.1611 | 40 |
+| Combined MI + failure + diversity | 60.27 +/- 2.15 | 0.6000 | 0.1317 | 40 |
+
+The MWAC-style proxy chooses candidates whose frozen-AI probability for the
+known grade is closest to 0.5; it is not a second reproduction of the neural
+MWAC algorithm reported above. MI marginalizes over hypothetical expert
+responses using the queried-label confusion posterior. The failure proxy
+estimates expected fused misclassification frequency under that posterior.
+The combined strategy equally rank-weights MI, failure and feature distance,
+with 25% random exploration. No unqueried doctor response is used.
+
+MI and the failure proxy edge out random by 0.50 and 0.37 percentage points
+in the mean, while the combined strategy is 0.17 points below random. Paired
+fold results are mixed, and the 15-run standard deviations are descriptive,
+not confidence intervals because seeds share test folds. This does not establish
+that risk-guided acquisition improves learning over random. Full metrics,
+paired fold values, traces and hashes are in
+[`results/experiment_c_acquisition_ablation/`](../results/experiment_c_acquisition_ablation/report.md).
+
+To rerun the full ablation in a fresh output folder:
+
+```bash
+python run_budget_dr5.py --phase all --machine frozen --acquisition ablation --output results/my_experiment_c_ablation
+```
+
 ## Background sources
 
 - [ActiveHAI, IJCAI 2025](https://www.ijcai.org/proceedings/2025/477): task context
