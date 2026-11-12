@@ -92,6 +92,15 @@ def score_metrics(target, score, calibrated_probability=False):
         "auroc": float(roc_auc_score(target, score)) if np.unique(target).size == 2 else float("nan"),
         "average_precision": float(average_precision_score(target, score)) if target.sum() else float("nan"),
     }
+    # Risk-versus-coverage curve: retain the lowest-risk cases at each
+    # coverage. Include every attainable point (one case at a time), plus
+    # the empty/full endpoints, and summarize its area for easy comparisons.
+    order = np.argsort(score, kind="stable")
+    cumulative_errors = np.concatenate([[0.0], np.cumsum(target[order])])
+    coverage = np.arange(len(target) + 1, dtype=float) / len(target)
+    curve_risk = np.divide(cumulative_errors, np.arange(len(target) + 1),
+                            out=np.zeros(len(target) + 1), where=np.arange(len(target) + 1) > 0)
+    result["aurc"] = float(np.trapz(curve_risk, coverage))
     # Fraction of errors remaining after referring the highest-risk cases.
     for fraction in (0.1, 0.2, 0.3):
         n_refer = int(np.ceil(fraction * len(target)))
@@ -107,6 +116,7 @@ def score_metrics(target, score, calibrated_probability=False):
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     rows = []
+    curve_rows = []
     fold_notes = []
     for fold in range(5):
         train = load_fold(fold, "train")
@@ -129,6 +139,15 @@ def main():
             scores = {name: values[indices] for name, values in data["baseline_risks"].items()}
             scores["learned_probability"] = model.predict_proba(data["features"][indices])[:, 1]
             for name, score in scores.items():
+                order = np.argsort(score, kind="stable")
+                cumulative_errors = np.concatenate([[0], np.cumsum(target[order])])
+                n_kept = np.arange(len(target) + 1)
+                risks = np.divide(cumulative_errors, n_kept, out=np.zeros(len(target) + 1), where=n_kept > 0)
+                curve_rows.extend({
+                    "fold": fold, "split": split_name, "score": name,
+                    "coverage": float(k / len(target)), "risk": float(risks[k]),
+                    "n_retained": int(k),
+                } for k in range(len(target) + 1))
                 rows.append({
                     "fold": fold,
                     "split": split_name,
@@ -146,6 +165,7 @@ def main():
 
     results = pd.DataFrame(rows)
     results.to_csv(OUT / "per_fold.csv", index=False)
+    pd.DataFrame(curve_rows).to_csv(OUT / "risk_coverage.csv", index=False)
     metric_columns = [column for column in results.columns if column not in {"fold", "split", "score", "n"}]
     summary = results.groupby(["split", "score"])[metric_columns].agg(["mean", "std"])
     summary.to_csv(OUT / "summary.csv")
@@ -157,7 +177,7 @@ def main():
         "protocol": "Per fold, fit StandardScaler and fixed-C logistic regression on a stratified 80% subset of training CSV; assess on held-out 20% validation subset.",
         "test_status": "test_exploratory only: prior test inspection means it is not an untouched confirmatory set",
         "calibration": "Brier score and 10-bin equal-width ECE; ECE is bin-dependent",
-        "ranking_and_triage": "AUROC, average precision, and residual error rate after referring the top 10/20/30% risk cases",
+        "ranking_and_triage": "AUROC, average precision, area under the risk-coverage curve (AURC), and residual error at 10/20/30% referral; full per-case curves are in risk_coverage.csv",
         "folds": fold_notes,
         "limitations": [
             "No untouched final test set is available; do not claim confirmatory superiority.",
