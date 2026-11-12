@@ -190,6 +190,5 @@ def main():
     print(results.groupby(["split", "score"])[["auroc", "average_precision", "brier", "ece_10bin"]].mean().round(4))
     print(f"\nSaved results to: {OUT}")
 
-
 if __name__ == "__main__":
     main()
