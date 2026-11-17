@@ -137,6 +137,61 @@ The observed test accuracy across five folds and three evaluator seeds was:
 These are measurements along one acquisition policy, not a comparison proving
 that entropy improves over another policy.
 
+## Experiment C: paired acquisition ablation
+
+`experiments/analysis/experiment_c_random_vs_mwac_entropy_mc.py` compares three
+strategies at matched budgets on all five folds and seeds 1–3. The runs share
+the same initial labeled examples for each fold/seed, evaluator, fusion rule,
+test set, and deterministic single-pass test inference. At each round, the
+methods query one unqueried training example per class. The two MWAC methods
+use the same 100-candidate sampling rule and `[55:60]` boundary window.
+
+The MC Dropout score is **mutual information** from the existing
+`reliability_signals` implementation:
+`H(mean dropout prediction) - mean(H(each dropout prediction))`, using 20
+forward passes. The failure-frequency proxy is not blended into the score.
+Acquisition uses training-fold data only; test labels and human labels are not
+used to choose examples.
+
+Mean fusion accuracy (± SD across 15 fold-seed runs) by total query budget:
+
+| Total queries | Random | MWAC + AI entropy | MWAC + MC Dropout (MI) |
+|---:|---:|---:|---:|
+| 10 | 48.5% ± 7.1% | 48.5% ± 7.1% | 48.5% ± 7.1% |
+| 15 | 51.7% ± 5.9% | 52.1% ± 7.4% | 51.0% ± 5.2% |
+| 20 | 53.6% ± 4.2% | 53.8% ± 6.1% | 54.3% ± 3.9% |
+| 25 | 55.5% ± 3.7% | 54.9% ± 3.7% | 54.9% ± 3.4% |
+| 30 | 57.1% ± 3.2% | 56.4% ± 3.6% | 55.7% ± 3.6% |
+| 35 | 57.8% ± 3.2% | 57.0% ± 4.2% | 56.2% ± 4.0% |
+| 40 | 59.3% ± 2.6% | 57.6% ± 3.5% | 57.1% ± 2.8% |
+
+At the final 40-query budget:
+
+| Method | Accuracy | Macro-F1 | Balanced accuracy | QWK | NLL | ECE |
+|---|---:|---:|---:|---:|---:|---:|
+| Random | 59.3% ± 2.6% | 0.5895 ± 0.0259 | 59.3% ± 2.6% | 0.6864 ± 0.0409 | 1.1832 ± 0.0766 | 0.1360 ± 0.0311 |
+| MWAC + AI entropy | 57.6% ± 3.5% | 0.5710 ± 0.0363 | 57.6% ± 3.5% | 0.6749 ± 0.0447 | 1.1827 ± 0.0965 | 0.1502 ± 0.0364 |
+| MWAC + MC Dropout (MI) | 57.1% ± 2.8% | 0.5662 ± 0.0268 | 57.1% ± 2.8% | 0.6815 ± 0.0515 | 1.1803 ± 0.1115 | 0.1543 ± 0.0275 |
+
+Paired final-budget differences (first method minus second) were:
+
+| Comparison | Accuracy | Macro-F1 | Balanced accuracy | QWK | NLL | ECE |
+|---|---:|---:|---:|---:|---:|---:|
+| MWAC + AI entropy − Random | −1.70 pp | −0.0185 | −1.70 pp | −0.0115 | −0.0005 | +0.0142 |
+| MWAC + MC Dropout − Random | −2.20 pp | −0.0233 | −2.20 pp | −0.0049 | −0.0029 | +0.0183 |
+| MWAC + MC Dropout − MWAC + AI entropy | −0.50 pp | −0.0048 | −0.50 pp | +0.0066 | −0.0023 | +0.0041 |
+
+The full fold-seed paired differences and descriptive paired t-test results are
+in `paired_differences.csv` and `paired_difference_summary.csv`. The p-values
+are unadjusted across many comparisons; treat them cautiously. These
+previously inspected folds are exploratory, and the observed means do not show
+an accuracy advantage for either uncertainty-aware strategy over random.
+
+Figures: `accuracy_vs_budget.png` / `.svg`, `macro_f1_vs_budget.png`,
+`ece_vs_budget.png`, and `final_budget_comparison.png`. Machine-readable
+outputs and acquisition traces are under
+`results/experiment_c_random_vs_mwac_entropy_mc/`.
+
 ## Experiment D: robustness checks
 
 `experiments/analysis/experiment_d_robustness.py` ran three exploratory checks

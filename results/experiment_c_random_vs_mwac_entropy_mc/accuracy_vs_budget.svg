@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,sans-serif;fill:#18212f}.small{font-size:13px}.axis{stroke:#344054;stroke-width:1.5}</style>
+<text x="100" y="35" font-size="22" font-weight="bold">Experiment C: Accuracy vs Expert Query Budget</text>
+<line x1="100" y1="550.0" x2="720" y2="550.0" stroke="#e7ebf0"/>
+<text class="small" x="88" y="554.0" text-anchor="end">0.00</text>
+<line x1="100" y1="454.4" x2="720" y2="454.4" stroke="#e7ebf0"/>
+<text class="small" x="88" y="458.4" text-anchor="end">0.20</text>
+<line x1="100" y1="358.8" x2="720" y2="358.8" stroke="#e7ebf0"/>
+<text class="small" x="88" y="362.8" text-anchor="end">0.40</text>
+<line x1="100" y1="263.2" x2="720" y2="263.2" stroke="#e7ebf0"/>
+<text class="small" x="88" y="267.2" text-anchor="end">0.60</text>
+<line x1="100" y1="167.6" x2="720" y2="167.6" stroke="#e7ebf0"/>
+<text class="small" x="88" y="171.6" text-anchor="end">0.80</text>
+<line x1="100" y1="72.0" x2="720" y2="72.0" stroke="#e7ebf0"/>
+<text class="small" x="88" y="76.0" text-anchor="end">1.00</text>
+<line x1="255.0" y1="72" x2="255.0" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="255.0" y="573" text-anchor="middle">10</text>
+<line x1="332.5" y1="72" x2="332.5" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="332.5" y="573" text-anchor="middle">15</text>
+<line x1="410.0" y1="72" x2="410.0" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="410.0" y="573" text-anchor="middle">20</text>
+<line x1="487.5" y1="72" x2="487.5" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="487.5" y="573" text-anchor="middle">25</text>
+<line x1="565.0" y1="72" x2="565.0" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="565.0" y="573" text-anchor="middle">30</text>
+<line x1="642.5" y1="72" x2="642.5" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="642.5" y="573" text-anchor="middle">35</text>
+<line x1="720.0" y1="72" x2="720.0" y2="550" stroke="#f1f3f6"/>
+<text class="small" x="720.0" y="573" text-anchor="middle">40</text>
+<line class="axis" x1="100" y1="550" x2="720" y2="550"/>
+<line class="axis" x1="100" y1="72" x2="100" y2="550"/>
+<text x="410.0" y="615" text-anchor="middle" font-size="16">Total Expert Queries</text>
+<text transform="translate(26 311.0) rotate(-90)" text-anchor="middle" font-size="16">Fusion Accuracy</text>
+<line x1="255.0" y1="284.2" x2="255.0" y2="351.8" stroke="#697586" stroke-width="1.6"/>
+<line x1="250.0" y1="284.2" x2="260.0" y2="284.2" stroke="#697586"/>
+<line x1="250.0" y1="351.8" x2="260.0" y2="351.8" stroke="#697586"/>
+<line x1="332.5" y1="274.6" x2="332.5" y2="331.5" stroke="#697586" stroke-width="1.6"/>
+<line x1="327.5" y1="274.6" x2="337.5" y2="274.6" stroke="#697586"/>
+<line x1="327.5" y1="331.5" x2="337.5" y2="331.5" stroke="#697586"/>
+<line x1="410.0" y1="273.9" x2="410.0" y2="313.6" stroke="#697586" stroke-width="1.6"/>
+<line x1="405.0" y1="273.9" x2="415.0" y2="273.9" stroke="#697586"/>
+<line x1="405.0" y1="313.6" x2="415.0" y2="313.6" stroke="#697586"/>
+<line x1="487.5" y1="267.2" x2="487.5" y2="302.2" stroke="#697586" stroke-width="1.6"/>
+<line x1="482.5" y1="267.2" x2="492.5" y2="267.2" stroke="#697586"/>
+<line x1="482.5" y1="302.2" x2="492.5" y2="302.2" stroke="#697586"/>
+<line x1="565.0" y1="261.8" x2="565.0" y2="292.7" stroke="#697586" stroke-width="1.6"/>
+<line x1="560.0" y1="261.8" x2="570.0" y2="261.8" stroke="#697586"/>
+<line x1="560.0" y1="292.7" x2="570.0" y2="292.7" stroke="#697586"/>
+<line x1="642.5" y1="258.6" x2="642.5" y2="288.9" stroke="#697586" stroke-width="1.6"/>
+<line x1="637.5" y1="258.6" x2="647.5" y2="258.6" stroke="#697586"/>
+<line x1="637.5" y1="288.9" x2="647.5" y2="288.9" stroke="#697586"/>
+<line x1="720.0" y1="254.5" x2="720.0" y2="279.0" stroke="#697586" stroke-width="1.6"/>
+<line x1="715.0" y1="254.5" x2="725.0" y2="254.5" stroke="#697586"/>
+<line x1="715.0" y1="279.0" x2="725.0" y2="279.0" stroke="#697586"/>
+<polyline points="255.0,318.0 332.5,303.0 410.0,293.8 487.5,284.7 565.0,277.2 642.5,273.7 720.0,266.7" fill="none" stroke="#697586" stroke-width="3"/>
+<circle cx="255.0" cy="318.0" r="4.5" fill="#697586"/>
+<circle cx="332.5" cy="303.0" r="4.5" fill="#697586"/>
+<circle cx="410.0" cy="293.8" r="4.5" fill="#697586"/>
+<circle cx="487.5" cy="284.7" r="4.5" fill="#697586"/>
+<circle cx="565.0" cy="277.2" r="4.5" fill="#697586"/>
+<circle cx="642.5" cy="273.7" r="4.5" fill="#697586"/>
+<circle cx="720.0" cy="266.7" r="4.5" fill="#697586"/>
+<line x1="255.0" y1="284.2" x2="255.0" y2="351.8" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="250.0" y1="284.2" x2="260.0" y2="284.2" stroke="#1976d2"/>
+<line x1="250.0" y1="351.8" x2="260.0" y2="351.8" stroke="#1976d2"/>
+<line x1="332.5" y1="265.6" x2="332.5" y2="336.3" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="327.5" y1="265.6" x2="337.5" y2="265.6" stroke="#1976d2"/>
+<line x1="327.5" y1="336.3" x2="337.5" y2="336.3" stroke="#1976d2"/>
+<line x1="410.0" y1="263.5" x2="410.0" y2="321.9" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="405.0" y1="263.5" x2="415.0" y2="263.5" stroke="#1976d2"/>
+<line x1="405.0" y1="321.9" x2="415.0" y2="321.9" stroke="#1976d2"/>
+<line x1="487.5" y1="270.3" x2="487.5" y2="305.2" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="482.5" y1="270.3" x2="492.5" y2="270.3" stroke="#1976d2"/>
+<line x1="482.5" y1="305.2" x2="492.5" y2="305.2" stroke="#1976d2"/>
+<line x1="565.0" y1="263.1" x2="565.0" y2="297.7" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="560.0" y1="263.1" x2="570.0" y2="263.1" stroke="#1976d2"/>
+<line x1="560.0" y1="297.7" x2="570.0" y2="297.7" stroke="#1976d2"/>
+<line x1="642.5" y1="257.2" x2="642.5" y2="297.5" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="637.5" y1="257.2" x2="647.5" y2="257.2" stroke="#1976d2"/>
+<line x1="637.5" y1="297.5" x2="647.5" y2="297.5" stroke="#1976d2"/>
+<line x1="720.0" y1="257.9" x2="720.0" y2="291.8" stroke="#1976d2" stroke-width="1.6"/>
+<line x1="715.0" y1="257.9" x2="725.0" y2="257.9" stroke="#1976d2"/>
+<line x1="715.0" y1="291.8" x2="725.0" y2="291.8" stroke="#1976d2"/>
+<polyline points="255.0,318.0 332.5,301.0 410.0,292.7 487.5,287.7 565.0,280.4 642.5,277.4 720.0,274.8" fill="none" stroke="#1976d2" stroke-width="3"/>
+<circle cx="255.0" cy="318.0" r="4.5" fill="#1976d2"/>
+<circle cx="332.5" cy="301.0" r="4.5" fill="#1976d2"/>
+<circle cx="410.0" cy="292.7" r="4.5" fill="#1976d2"/>
+<circle cx="487.5" cy="287.7" r="4.5" fill="#1976d2"/>
+<circle cx="565.0" cy="280.4" r="4.5" fill="#1976d2"/>
+<circle cx="642.5" cy="277.4" r="4.5" fill="#1976d2"/>
+<circle cx="720.0" cy="274.8" r="4.5" fill="#1976d2"/>
+<line x1="255.0" y1="284.2" x2="255.0" y2="351.8" stroke="#d97706" stroke-width="1.6"/>
+<line x1="250.0" y1="284.2" x2="260.0" y2="284.2" stroke="#d97706"/>
+<line x1="250.0" y1="351.8" x2="260.0" y2="351.8" stroke="#d97706"/>
+<line x1="332.5" y1="281.5" x2="332.5" y2="330.9" stroke="#d97706" stroke-width="1.6"/>
+<line x1="327.5" y1="281.5" x2="337.5" y2="281.5" stroke="#d97706"/>
+<line x1="327.5" y1="330.9" x2="337.5" y2="330.9" stroke="#d97706"/>
+<line x1="410.0" y1="271.7" x2="410.0" y2="308.9" stroke="#d97706" stroke-width="1.6"/>
+<line x1="405.0" y1="271.7" x2="415.0" y2="271.7" stroke="#d97706"/>
+<line x1="405.0" y1="308.9" x2="415.0" y2="308.9" stroke="#d97706"/>
+<line x1="487.5" y1="271.4" x2="487.5" y2="303.4" stroke="#d97706" stroke-width="1.6"/>
+<line x1="482.5" y1="271.4" x2="492.5" y2="271.4" stroke="#d97706"/>
+<line x1="482.5" y1="303.4" x2="492.5" y2="303.4" stroke="#d97706"/>
+<line x1="565.0" y1="266.8" x2="565.0" y2="301.1" stroke="#d97706" stroke-width="1.6"/>
+<line x1="560.0" y1="266.8" x2="570.0" y2="266.8" stroke="#d97706"/>
+<line x1="560.0" y1="301.1" x2="570.0" y2="301.1" stroke="#d97706"/>
+<line x1="642.5" y1="262.5" x2="642.5" y2="300.6" stroke="#d97706" stroke-width="1.6"/>
+<line x1="637.5" y1="262.5" x2="647.5" y2="262.5" stroke="#d97706"/>
+<line x1="637.5" y1="300.6" x2="647.5" y2="300.6" stroke="#d97706"/>
+<line x1="720.0" y1="264.0" x2="720.0" y2="290.4" stroke="#d97706" stroke-width="1.6"/>
+<line x1="715.0" y1="264.0" x2="725.0" y2="264.0" stroke="#d97706"/>
+<line x1="715.0" y1="290.4" x2="725.0" y2="290.4" stroke="#d97706"/>
+<polyline points="255.0,318.0 332.5,306.2 410.0,290.3 487.5,287.4 565.0,283.9 642.5,281.5 720.0,277.2" fill="none" stroke="#d97706" stroke-width="3"/>
+<circle cx="255.0" cy="318.0" r="4.5" fill="#d97706"/>
+<circle cx="332.5" cy="306.2" r="4.5" fill="#d97706"/>
+<circle cx="410.0" cy="290.3" r="4.5" fill="#d97706"/>
+<circle cx="487.5" cy="287.4" r="4.5" fill="#d97706"/>
+<circle cx="565.0" cy="283.9" r="4.5" fill="#d97706"/>
+<circle cx="642.5" cy="281.5" r="4.5" fill="#d97706"/>
+<circle cx="720.0" cy="277.2" r="4.5" fill="#d97706"/>
+<line x1="745" y1="92" x2="775" y2="92" stroke="#697586" stroke-width="3"/>
+<text class="small" x="785" y="96">Random</text>
+<line x1="745" y1="122" x2="775" y2="122" stroke="#1976d2" stroke-width="3"/>
+<text class="small" x="785" y="126">MWAC + AI Entropy</text>
+<line x1="745" y1="152" x2="775" y2="152" stroke="#d97706" stroke-width="3"/>
+<text class="small" x="785" y="156">MWAC + MC Dropout (MI)</text>
+<text class="small" x="100" y="635">Points and error bars show mean ± SD across fold-seed runs (full run: n=15 per budget).</text>
+</svg>
