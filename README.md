@@ -175,48 +175,9 @@ Tracked C result artifacts are in:
 - [`results/experiment_c_reliability_weighted_fusion/`](results/experiment_c_reliability_weighted_fusion/)
 - [`results/experiment_c_fusion_weight_calibration/`](results/experiment_c_fusion_weight_calibration/)
 
-The earlier random / MWAC+entropy / MWAC+MC-MI acquisition comparison is
-preserved as an **archived preliminary ablation** in
-[`results/experiment_c_random_vs_mwac_entropy_mc/`](results/experiment_c_random_vs_mwac_entropy_mc/).
-It is not the current thesis Experiment C because it compared acquisition
-strategies rather than reliability-adjusted fusion weights.
-
-### Experiment D: robustness analyses
-
-[`experiments/analysis/experiment_d_robustness.py`](experiments/analysis/experiment_d_robustness.py)
-contains class-specific error ranking, ordinal error-severity, and evaluator
-seed checks on the available folds.
-
-```bash
-python experiments/analysis/experiment_d_robustness.py
-```
-
-### Budget-preserving fusion and acquisition
-
-[`run_budget_dr5.py`](run_budget_dr5.py) estimates a smoothed expert confusion
-matrix from queried responses, chooses fusion parameters by leave-one-out NLL,
-and supports random, reliability/information, diversity, and related
-acquisition controls. It avoids training a high-dimensional evaluator from
-only 10–40 responses.
-
-```bash
-# Full frozen/probe × random/diverse run; each phase uses a fresh output folder.
-python run_budget_dr5.py --phase train --output results/my_budget
-python run_budget_dr5.py --phase evaluate --output results/my_budget
-
-# Reproduce the strongest measured frozen-AI diverse result.
-python run_budget_dr5.py --phase all --machine frozen --acquisition diverse --output results/my_diverse
-```
-
-The precomputed comparison is summarized in
-[`docs/budget_accuracy.md`](docs/budget_accuracy.md). The frozen-AI diverse
-variant reached 60.97% ± 1.89%; its matched random control reached
-60.43% ± 2.96%. This small active-vs-random difference is not a confirmed
-acquisition advantage.
-
 ## Results, interpretation and reproducibility
 
-- [`docs/results_report.md`](docs/results_report.md): consolidated A–D results,
+- [`docs/results_report.md`](docs/results_report.md): consolidated A–C results,
   paired comparisons and limitations.
 - [`docs/methodology.md`](docs/methodology.md): protocol, equations, query
   accounting and research interpretation.
