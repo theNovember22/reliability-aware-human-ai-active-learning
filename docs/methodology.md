@@ -172,10 +172,14 @@ active-acquisition advantage.
 4. **Control small-sample overfitting.** Validate embedding/linear weight decay,
    lower-dimensional feature projections, and a smoothed confusion-matrix
    prior. With only 10–40 queried labels, extra model complexity can hurt.
-5. **Validate the fusion strength.** Compare calibrated log-linear fusion
-   `log p = alpha*log p_AI + beta*log p_h` against the fixed product. Learn the
-   weights only from a counted validation set; alpha/beta can change accuracy,
-   unlike scalar post-fusion temperature scaling.
+5. **Validate reliability-adaptive fusion weights.** Experiment C now compares
+   the existing fixed product with per-case evaluator weighting
+   `beta_i = clip(1 - MI_i/log(5), 0, 1)`, using the same Experiment B query
+   sequence and evaluator checkpoints. The first run reduced KL slightly but
+   did not materially change accuracy. A follow-up LOO grid over AI and expert
+   weights reduced both accuracy and KL performance on the exploratory folds.
+   Any stronger weight mapping should be selected using nested validation,
+   then evaluated on a fresh test set.
 6. **Report more than accuracy.** Keep macro-F1, per-grade recall, quadratic
    weighted kappa, NLL, Brier score and ECE. DR grades are ordered and the sample
    is artificially balanced; its accuracy is not a population prevalence estimate.

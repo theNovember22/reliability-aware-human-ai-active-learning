@@ -36,11 +36,11 @@ def confusion_posterior(labels, human, mass=5.):
     return counts
 
 
-def fuse(machine, human, likelihood, strength=1.):
-    """P(y|x,h) proportional to P_machine(y|x) P(h|y)**strength."""
+def fuse(machine, human, likelihood, strength=1., machine_strength=1.):
+    """Log-linear fusion with independently weighted machine and expert terms."""
     log_machine = np.log(np.clip(machine, 1e-12, 1.))
     log_human = np.log(np.clip(likelihood[:, np.asarray(human, dtype=int)].T, 1e-12, 1.))
-    return softmax(log_machine + strength * log_human, axis=-1)
+    return softmax(machine_strength * log_machine + strength * log_human, axis=-1)
 
 
 @dataclass
@@ -49,21 +49,24 @@ class BudgetFusion:
     strength: float
     mass: float
     loo_nll: float
+    machine_strength: float = 1.
 
     @property
     def likelihood(self):
         return self.posterior / self.posterior.sum(1, keepdims=True)
 
     def predict(self, machine, human):
-        return fuse(machine, human, self.likelihood, self.strength)
+        return fuse(machine, human, self.likelihood, self.strength, self.machine_strength)
 
     def to_dict(self):
         return dict(posterior=self.posterior.tolist(), strength=self.strength,
-                    mass=self.mass, loo_nll=self.loo_nll)
+                    mass=self.mass, loo_nll=self.loo_nll,
+                    machine_strength=self.machine_strength)
 
     @classmethod
     def from_dict(cls, value):
-        return cls(np.asarray(value['posterior']), value['strength'], value['mass'], value['loo_nll'])
+        return cls(np.asarray(value['posterior']), value['strength'], value['mass'], value['loo_nll'],
+                   value.get('machine_strength', 1.))
 
 
 def fit_fusion(machine_oof, queried_labels, queried_human):
@@ -94,6 +97,49 @@ def fit_fusion(machine_oof, queried_labels, queried_human):
                 best = (key, mass, strength)
     _, mass, strength = best
     return BudgetFusion(confusion_posterior(y, h, mass), strength, mass, best[0][0])
+
+
+def fit_fusion_loglinear(machine_oof, queried_labels, queried_human,
+                         machine_strengths=(.5, .75, 1., 1.25, 1.5, 2.)):
+    """LOO-tune both log-probability weights using queried pairs only.
+
+    This is a train-only extension of fit_fusion. Each held-out expert response
+    is excluded from both confusion counts and their shared accuracy prior.
+    Candidate alpha/beta/mass grids are fixed before test evaluation.
+    """
+    machine = np.asarray(machine_oof, dtype=float)
+    y, h = np.asarray(queried_labels, dtype=int), np.asarray(queried_human, dtype=int)
+    if len(y) < 2 or machine.shape != (len(y), 5) or h.shape != y.shape:
+        raise ValueError('Expected at least two aligned five-class machine/label/response rows')
+    if not np.isfinite(machine).all() or (machine < 0).any() or not np.allclose(machine.sum(1), 1., atol=1e-5):
+        raise ValueError('Machine predictions must be finite normalized probabilities')
+    if not np.isin(y, range(5)).all() or not np.isin(h, range(5)).all():
+        raise ValueError('Labels must be in [0, 4]')
+    alphas = tuple(float(a) for a in machine_strengths)
+    if not alphas or any(a <= 0 for a in alphas):
+        raise ValueError('Machine strengths must be positive')
+
+    machine_log = np.log(np.clip(machine, 1e-12, 1.))
+    best = None
+    for mass in (1., 5., 20.):
+        held_out_human_likelihood = []
+        for i in range(len(y)):
+            keep = np.arange(len(y)) != i
+            counts = confusion_posterior(y[keep], h[keep], mass)
+            likelihood = counts / counts.sum(1, keepdims=True)
+            held_out_human_likelihood.append(likelihood[:, h[i]])
+        log_human = np.log(np.asarray(held_out_human_likelihood))
+        for alpha in alphas:
+            for beta in (0., .5, 1., 1.5, 2.):
+                probabilities = softmax(alpha * machine_log + beta * log_human, axis=1)
+                score = nll(probabilities, y)
+                # Prefer the original unit AI contribution and beta near one on ties.
+                key = (score, -mass, abs(alpha - 1.), abs(beta - 1.), alpha, beta)
+                if best is None or key < best[0]:
+                    best = (key, mass, alpha, beta)
+    _, mass, alpha, beta = best
+    return BudgetFusion(confusion_posterior(y, h, mass), beta, mass,
+                        best[0][0], machine_strength=alpha)
 
 
 @dataclass

@@ -129,14 +129,24 @@ def entropy(p):
     return -(p * p.clamp_min(1e-12).log()).sum(-1)
 
 
+def mutual_information(samples):
+    """MC-dropout MI: H(mean prediction) - mean entropy per pass.
+
+    `samples` has shape [passes, cases, classes]. This estimate requires no
+    class labels, so it can safely be used to adjust inference-time fusion.
+    """
+    if samples.ndim != 3 or samples.shape[0] < 1:
+        raise ValueError('Expected MC probabilities shaped [passes, cases, classes]')
+    return (entropy(samples.mean(0)) - entropy(samples).mean(0)).clamp_min(0)
+
+
 def reliability_signals(samples, labels):
     """Dropout failure frequency, MI and limit-state margin statistics.
 
     For unqueried data, samples are conditional on pseudo h=y. Failure is
     therefore a COUNTERFACTUAL proxy, not an estimated real doctor error rate.
     """
-    mean = samples.mean(0)
-    mi = (entropy(mean) - entropy(samples).mean(0)).clamp_min(0)
+    mi = mutual_information(samples)
     target = samples.gather(2, labels[None, :, None].expand(samples.shape[0], -1, 1)).squeeze(-1)
     others = samples.clone()
     others.scatter_(2, labels[None, :, None].expand(samples.shape[0], -1, 1), -1.)

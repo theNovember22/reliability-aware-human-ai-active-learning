@@ -137,7 +137,79 @@ The observed test accuracy across five folds and three evaluator seeds was:
 These are measurements along one acquisition policy, not a comparison proving
 that entropy improves over another policy.
 
-## Experiment C: paired acquisition ablation
+## Experiment C: reliability-adaptive fusion
+
+`experiments/analysis/experiment_c_reliability_weighted_fusion.py` tests the
+thesis question directly: does a per-case evaluator reliability estimate
+improve Human–AI fusion when it changes the evaluator's contribution? Both
+conditions use the exact same Experiment B entropy-ranked MWAC acquisition
+path, acquired labels, trained evaluator checkpoints, MC-dropout samples, and
+test set. The fixed condition uses evaluator coefficient `beta=1`; the
+adaptive condition uses `beta_i = clip(1 - MI_i/log(5), 0, 1)`. MI comes from
+the existing MC-dropout implementation and does not use test labels.
+
+KL is calculated as `KL(one-hot true label || fused prediction)`. With a
+one-hot categorical target, this is mathematically the same as NLL.
+
+Mean test metrics (± SD across 15 fold-seed runs):
+
+| Labels/class | Total queries | Fixed accuracy | Adaptive accuracy | Fixed KL | Adaptive KL |
+|---:|---:|---:|---:|---:|---:|
+| 2 | 10 | 48.33% ± 7.15% | 48.37% ± 7.11% | 1.5022 ± 0.2030 | 1.4989 ± 0.2020 |
+| 3 | 15 | 52.73% ± 4.94% | 52.70% ± 4.92% | 1.3870 ± 0.1447 | 1.3842 ± 0.1442 |
+| 4 | 20 | 54.33% ± 3.89% | 54.40% ± 3.85% | 1.3426 ± 0.1402 | 1.3402 ± 0.1395 |
+| 5 | 25 | 56.27% ± 4.37% | 56.30% ± 4.35% | 1.2815 ± 0.1406 | 1.2795 ± 0.1400 |
+| 6 | 30 | 57.87% ± 2.98% | 57.90% ± 2.87% | 1.2318 ± 0.1071 | 1.2301 ± 0.1064 |
+| 7 | 35 | 58.20% ± 3.26% | 58.20% ± 3.35% | 1.1887 ± 0.1085 | 1.1873 ± 0.1079 |
+| 8 | 40 | 58.57% ± 3.54% | 58.60% ± 3.59% | 1.1671 ± 0.1056 | 1.1659 ± 0.1050 |
+
+At 40 queries, the paired adaptive-minus-fixed accuracy difference was
+**+0.03 percentage points** (SD 0.23 pp; paired p=0.582). The KL difference
+was **−0.00122** (SD 0.00078; paired p=0.00003, unadjusted). The observed mean
+MI at the endpoint was 0.0083 nats, corresponding to a mean evaluator weight
+of 0.9948. Thus the predeclared weight rule changed predictions only slightly:
+it reduced KL, but did not produce a meaningful accuracy gain in these runs.
+The KL result is not independent of NLL, and the existing folds are
+exploratory; these results do not establish improved final accuracy.
+
+Full fold-seed metrics and paired differences, reliability weights, traces,
+and figures are in `results/experiment_c_reliability_weighted_fusion/`.
+
+### Train-only weight-tuning follow-up
+
+I also tested leave-one-out tuning of both machine and queried-expert log
+weights (`alpha` and `beta`) on the same Experiment B query IDs. The candidate
+grid and confusion-prior mass were selected by LOO NLL using acquired training
+responses only. This **did not improve** the result:
+
+| Fusion method | Accuracy at 40 queries | KL to one-hot truth |
+|---|---:|---:|
+| Queried-confusion fusion, fixed AI weight | 59.37% ± 2.62% | 1.0625 ± 0.0574 |
+| LOO-tuned AI and expert weights | 57.20% ± 3.11% | 1.2422 ± 0.0900 |
+| Neural evaluator, fixed product fusion | 58.57% ± 3.53% | 1.1671 ± 0.1056 |
+
+The LOO-tuned version lost 2.17 percentage points versus the fixed-AI
+confusion fusion (paired p=0.0022, unadjusted). The fitted AI weight often
+landed near the top of its grid, but that train-only LOO preference did not
+transfer to the explored test folds. Increasing fusion weights based on the
+same small queried sample is therefore not a reliable way to force the target.
+Details are in `results/experiment_c_fusion_weight_calibration/`.
+
+The strongest previously measured candidate remains the separate
+budget-preserving diverse-acquisition fusion result: 60.97% ± 1.89% in
+[`docs/budget_accuracy.md`](budget_accuracy.md). This is +4.47 percentage
+points versus the earlier 56.50% corrected MWAC + AI-temperature result in
+this report, but only +2.37 points versus the current 58.60% adaptive-fusion
+result. Those runs change acquisition and/or fusion method, so this gap does
+not isolate the reliability weight and does not establish a 4–5 point causal
+gain.
+
+## Archived preliminary acquisition-selection ablation
+
+The earlier three-way acquisition comparison is preserved at
+`results/experiment_c_random_vs_mwac_entropy_mc/`. It compared random,
+MWAC+entropy, and MWAC+MC-MI selection, but did not test reliability-adjusted
+fusion weights. It is not the current thesis Experiment C.
 
 `experiments/analysis/experiment_c_random_vs_mwac_entropy_mc.py` compares three
 strategies at matched budgets on all five folds and seeds 1–3. The runs share
