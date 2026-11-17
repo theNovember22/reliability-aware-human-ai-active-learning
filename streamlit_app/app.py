@@ -177,8 +177,8 @@ def compute_predictions(model, ai_probs, features, human_labels, true_labels, pa
     }, ai_t.cpu().numpy()
 
 
-model_tab, budget_run_tab, budget_tab, sample_tab, metrics_tab = st.tabs([
-    "Run evaluator", "Run budget fusion", "Reported 60.97% result", "Inspect CSV", "How to use / limitations"
+model_tab, single_inference_tab, budget_run_tab, budget_tab, sample_tab, metrics_tab = st.tabs([
+    "Evaluate labeled CSV", "Infer new cases", "Run budget fusion", "Reported 60.97% result", "Inspect CSV", "How to use / limitations"
 ])
 
 with model_tab:
@@ -276,6 +276,95 @@ with model_tab:
         st.subheader("Confusion matrix: fusion predictions")
         cm = pd.crosstab(pd.Series(df_out["True Label"], name="True label"), pd.Series(df_out["Evaluator fusion prediction"], name="Predicted label"), dropna=False).reindex(index=range(5), columns=range(5), fill_value=0)
         st.dataframe(cm, width="stretch")
+
+
+with single_inference_tab:
+    st.subheader("Inference for new cases")
+    st.write(
+        "Upload cached model inputs without ground-truth labels. Each row needs the AI's "
+        "five class probabilities, the human/doctor prediction, and the 512 cached features."
+    )
+    st.info(
+        "This project has no retinal-image feature extractor. The interface predicts from "
+        "the supplied cached features and requires a human label; it cannot infer directly from an image."
+    )
+    infer_checkpoint_text = st.text_input(
+        "Trained evaluator checkpoint (.pt)",
+        value=str(find_default_checkpoint(REPO_ROOT)),
+        key="inference_checkpoint",
+    )
+    inference_csv = st.file_uploader(
+        "Upload inference CSV", type=["csv"], key="inference_csv"
+    )
+    st.caption("Required CSV columns: Logits, Human Label, Feat. True Label is not required.")
+    infer_button = st.button("Predict cases", type="primary", key="predict_new_cases")
+    if infer_button:
+        try:
+            inference_checkpoint = Path(infer_checkpoint_text).expanduser()
+            if not inference_checkpoint.is_file():
+                raise FileNotFoundError(f"Checkpoint not found: {inference_checkpoint}")
+            if inference_csv is None:
+                raise ValueError("Upload an inference CSV first.")
+            inference_df = pd.read_csv(inference_csv)
+            required_inputs = ["Logits", "Human Label", "Feat"]
+            if list(inference_df.columns) != required_inputs or inference_df.empty:
+                raise ValueError(f"Expected a nonempty CSV with exactly these columns: {required_inputs}")
+
+            ai_input = np.stack([vector_from_cell(v, "Logits", 5) for v in inference_df["Logits"]])
+            feature_input = np.stack([vector_from_cell(v, "Feat", 512) for v in inference_df["Feat"]])
+            human_numeric = pd.to_numeric(inference_df["Human Label"], errors="raise").to_numpy(dtype=float)
+            if not np.isfinite(human_numeric).all() or not np.equal(human_numeric, np.floor(human_numeric)).all():
+                raise ValueError("Human Label values must be integer class IDs.")
+            human_input = human_numeric.astype(int)
+            if (ai_input < 0).any() or not np.isfinite(ai_input).all() or not np.allclose(ai_input.sum(axis=1), 1, atol=1e-5):
+                raise ValueError("Each Logits value must contain five nonnegative probabilities summing to 1.")
+            if not np.isin(human_input, np.arange(5)).all():
+                raise ValueError("Human Label values must be integers 0–4.")
+
+            device = torch.device("cuda" if device_choice == "cuda" and torch.cuda.is_available() else "cpu")
+            model, checkpoint = load_checkpoint(inference_checkpoint, device)
+            record = checkpoint.get("record", {})
+            ai_temperature = float(record.get("ai_temperature", 1.0))
+            fusion_temperature = float(record.get("fusion_temperature", 1.0))
+            ai_tensor = torch.tensor(ai_input, dtype=torch.float32, device=device)
+            feature_tensor = torch.tensor(feature_input, dtype=torch.float32, device=device)
+            human_tensor = torch.tensor(human_input, dtype=torch.long, device=device)
+            with st.spinner("Running evaluator inference and MC Dropout…"):
+                calibrated_ai = temperature_scale(ai_tensor, ai_temperature)
+                samples = predict_samples(
+                    model, feature_tensor, human_tensor, calibrated_ai,
+                    passes=int(mc_passes), seed=int(seed),
+                )
+                fused_probs = temperature_scale(samples.mean(0), fusion_temperature).cpu().numpy()
+                sample_entropy = -(samples * samples.clamp_min(1e-12).log()).sum(-1).mean(0)
+                predictive_entropy = -(samples.mean(0) * samples.mean(0).clamp_min(1e-12).log()).sum(-1)
+                mutual_information = (predictive_entropy - sample_entropy).clamp_min(0).cpu().numpy()
+
+            results_df = inference_df.copy()
+            results_df["AI prediction"] = ai_input.argmax(axis=1)
+            results_df["Fusion prediction"] = fused_probs.argmax(axis=1)
+            results_df["Fusion confidence"] = fused_probs.max(axis=1)
+            results_df["MC mutual information"] = mutual_information
+            for class_id in range(5):
+                results_df[f"Fusion probability class {class_id}"] = fused_probs[:, class_id]
+            st.success(f"Generated predictions for {len(results_df)} case(s).")
+            st.dataframe(
+                results_df.drop(columns=["Logits", "Feat"]),
+                width="stretch", hide_index=True,
+            )
+            st.download_button(
+                "Download predictions CSV",
+                data=results_df.to_csv(index=False).encode("utf-8"),
+                file_name="dr5_inference_predictions.csv",
+                mime="text/csv",
+                key="download_inference_predictions",
+            )
+            st.caption(
+                f"Checkpoint: {inference_checkpoint} · The fusion prediction uses the provided human label. "
+                "Mutual information measures MC Dropout uncertainty; it is not a clinical risk probability."
+            )
+        except Exception as exc:
+            st.error(f"Could not run inference: {exc}")
 
 
 with budget_run_tab:

@@ -104,38 +104,38 @@ CSVs, but not as a confirmatory experiment: the test folds were previously
 inspected, and the files have no patient/image IDs. Confirmatory completion
 requires a fresh untouched test set with verifiable split provenance.
 
-## Experiment B: risk-guided referral
+## Experiment B: entropy-ranked MWAC active annotation
 
-`experiments/analysis/experiment_b_referral.py` simulates sending the highest-risk
-AI predictions to a human and measures only errors among the cases left for
-automatic handling. The table reports mean residual error over five existing
-test folds (200 cases/fold); the baseline AI error rate is 51.1%.
+`experiments/analysis/experiment_b_referral.py` now follows an iterative active
+annotation workflow. It starts with two human annotations per class, fits the
+evaluator, forms a class-balanced MWAC candidate set and its median window,
+then ranks only that window by AI predictive entropy (the same risk score used
+in Experiment A). The highest-entropy case in each class is sent for human
+annotation. Its human label is added to the training set before refitting the
+evaluator at the next budget. Test evaluator metrics are saved at each budget.
 
-| Referral score | Residual error at 10% referral | 20% | 30% |
-|---|---:|---:|---:|
-| Random referral | 51.1% | 51.1% | 51.1% |
-| Confidence risk (1 − max probability) | 49.7% | 48.3% | 47.3% |
-| Entropy | 49.7% | 48.6% | 46.9% |
-| Negative top-two margin | 51.7% | 50.6% | 48.9% |
-| Learned uncertainty | 50.2% | 49.9% | 48.3% |
-| Learned features | 50.4% | 49.9% | 49.9% |
-| Learned combined | 49.9% | 50.5% | 50.0% |
+Results are written to `results/experiment_b_referral/per_fold_budget.csv`,
+`summary.csv`, `report.json`, and `acquisition_traces.json`. The five existing
+test folds have been inspected previously, so these results are exploratory.
+Entropy is a ranking score, not a calibrated error probability. The simulation
+uses the known ground-truth class to form the MWAC candidate pool, as assumed
+by the ActiveHAI setting; only selected cases' human labels are revealed to
+the evaluator during acquisition.
 
-The plot and full referral-rate grid are in
-`results/experiment_b_referral/referral_curve.svg` and
-`results/experiment_b_referral/referral_curve.csv`. The random curve averages
-1,000 without-replacement referral draws per fold; its shaded band shows ±1 SD.
-At 30% referral, entropy has the lowest observed residual error (46.9%), a
-4.2 percentage-point reduction from the 51.1% baseline. These are exploratory
-results on previously inspected test folds. They do not measure corrected
-predictions or final accuracy after human review.
+The observed test accuracy across five folds and three evaluator seeds was:
 
-MI could not be included as an AI referral score: the cached files contain one
-AI probability vector per case, without MC samples or the AI model/image inputs
-needed to generate them. Existing MC-dropout outputs are for the human-AI
-fusion evaluator and depend on a human label, so they are not an available
-pre-review routing signal. MI remains a follow-up once AI MC predictions are
-saved for each case.
+| Human labels per class | Accuracy (mean ± SD) |
+|---:|---:|
+| 2 | 48.5% ± 7.1% |
+| 3 | 52.7% ± 4.6% |
+| 4 | 54.3% ± 3.6% |
+| 5 | 56.5% ± 4.1% |
+| 6 | 57.4% ± 3.0% |
+| 7 | 58.2% ± 3.2% |
+| 8 | 58.9% ± 3.5% |
+
+These are measurements along one acquisition policy, not a comparison proving
+that entropy improves over another policy.
 
 ## Experiment D: robustness checks
 

@@ -32,7 +32,17 @@ From the repository root:
 streamlit run streamlit_app/app.py
 ```
 
-In the sidebar, set **Repository root** to the root folder containing `src/dr5/core.py`. In **Run evaluator**, choose the trained `.pt` checkpoint and upload a matching-format CSV, for example `data/DR-5/model_output_0_test.csv`.
+In the sidebar, set **Repository root** to the root folder containing `src/dr5/core.py`. For labeled evaluation, use **Evaluate labeled CSV** and upload a matching-format CSV. For prediction on new cached cases, use **Infer new cases**, choose a trained `.pt` checkpoint, and upload a CSV without ground-truth labels.
+
+### Inference CSV
+
+The inference tab expects these columns, in this order:
+
+- `Logits`: comma-separated string of 5 normalized AI probabilities
+- `Human Label`: integer class 0–4
+- `Feat`: comma-separated string of 512 cached feature values
+
+It returns the AI prediction, human–AI fusion prediction, fusion confidence, MC mutual information, and per-class fusion probabilities. It does not calculate accuracy because ground-truth labels are not needed for inference. The current repository has no raw-image-to-feature extractor, so retinal images cannot be uploaded directly.
 
 ## CSV schema
 
@@ -43,7 +53,7 @@ The exact column names and order are:
 - `Human Label`: integer class 0–4
 - `Feat`: comma-separated string of 512 cached feature values
 
-The current repository does not supply a raw-image-to-feature extraction pipeline, so this app evaluates cached DR-5 rows rather than arbitrary retinal image uploads.
+The current repository does not supply a raw-image-to-feature extraction pipeline, so inference requires cached DR-5 feature vectors rather than arbitrary retinal image uploads.
 
 ## Important interpretation note
 
