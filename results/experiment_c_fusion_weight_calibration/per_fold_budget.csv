@@ -1,0 +1,316 @@
+fold,seed,labels_per_class,total_queries,method,machine_strength,expert_strength,prior_mass,accuracy,kl_divergence
+0,1,2,10,"queried-confusion fusion, AI weight=1",1.0,0.0,20.0,0.49,1.2923496795541882
+0,1,2,10,LOO-tuned AI and expert weights,0.5,0.0,20.0,0.49,1.2577737072358797
+0,1,3,15,"queried-confusion fusion, AI weight=1",1.0,0.0,20.0,0.49,1.2923496795541882
+0,1,3,15,LOO-tuned AI and expert weights,0.5,0.5,5.0,0.575,1.1815685226087913
+0,1,4,20,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.54,1.1911504332679557
+0,1,4,20,LOO-tuned AI and expert weights,0.75,0.5,5.0,0.565,1.1456648070837483
+0,1,5,25,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.57,1.1670693480254182
+0,1,5,25,LOO-tuned AI and expert weights,1.0,0.5,20.0,0.57,1.1670693480254182
+0,1,6,30,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.57,1.1446597041139246
+0,1,6,30,LOO-tuned AI and expert weights,1.25,0.5,20.0,0.57,1.2215313365324603
+0,1,7,35,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.575,1.1491069177827675
+0,1,7,35,LOO-tuned AI and expert weights,1.25,0.5,20.0,0.57,1.2258955594950742
+0,1,8,40,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.58,1.1595810604873562
+0,1,8,40,LOO-tuned AI and expert weights,1.5,0.5,20.0,0.535,1.3342143956185988
+0,1,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.4,1.8556724786758425
+0,1,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.46,1.6596581935882568
+0,1,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.5,1.609714388847351
+0,1,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.4371594190597534
+0,1,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.2369083166122437
+0,1,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.58,1.2265697717666626
+0,1,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.56,1.2329005002975464
+0,2,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,1.0,0.56,1.349102966365063
+0,2,2,10,LOO-tuned AI and expert weights,2.0,1.5,1.0,0.58,1.8688193484572004
+0,2,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,1.0,0.56,1.3333662524646581
+0,2,3,15,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.565,1.607982925120535
+0,2,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.58,1.144197864367852
+0,2,4,20,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.57,1.6422994695174784
+0,2,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.595,1.089099459908462
+0,2,5,25,LOO-tuned AI and expert weights,2.0,1.0,5.0,0.58,1.4712956330135645
+0,2,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.59,1.1467348245286866
+0,2,6,30,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.595,1.6471795461998255
+0,2,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.595,1.1694807285681477
+0,2,7,35,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.595,1.676477766092332
+0,2,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.575,1.1823279121411385
+0,2,8,40,LOO-tuned AI and expert weights,1.5,1.0,5.0,0.585,1.3077632299728197
+0,2,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.515,1.6562031507492063
+0,2,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.52,1.5801180601119995
+0,2,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.4185012578964231
+0,2,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.595,1.3576968908309937
+0,2,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.367854356765747
+0,2,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.3520684242248535
+0,2,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.3427070379257202
+0,3,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.595,1.0767865022988075
+0,3,2,10,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.58,1.223125142248463
+0,3,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.605,1.084792918259258
+0,3,3,15,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.595,1.218549478832889
+0,3,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.59,1.0684308317534126
+0,3,4,20,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.575,1.2204468279126686
+0,3,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.6,1.0521703127328523
+0,3,5,25,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.59,1.4176733551907947
+0,3,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.595,1.0546665559245105
+0,3,6,30,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.6,1.2051106963724896
+0,3,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.605,1.0552386180549198
+0,3,7,35,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.595,1.2006156505367205
+0,3,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.6,1.0511927148390172
+0,3,8,40,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.6,1.1998697181794638
+0,3,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.61,1.235507845878601
+0,3,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.61,1.215285062789917
+0,3,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.58,1.1790542602539062
+0,3,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.635,1.0581737756729126
+0,3,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.63,1.0633124113082886
+0,3,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.625,1.0708469152450562
+0,3,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.635,1.063710331916809
+1,1,2,10,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.55,1.1457706186356398
+1,1,2,10,LOO-tuned AI and expert weights,0.75,0.5,20.0,0.545,1.0960545102646946
+1,1,3,15,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.515,1.1474318108392765
+1,1,3,15,LOO-tuned AI and expert weights,0.75,0.5,5.0,0.525,1.1006286541488892
+1,1,4,20,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.53,1.1304551455073237
+1,1,4,20,LOO-tuned AI and expert weights,1.0,0.5,5.0,0.53,1.1304551455073237
+1,1,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.55,1.094679976125337
+1,1,5,25,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.565,1.1584791315157446
+1,1,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.55,1.0957059186408786
+1,1,6,30,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.565,1.1564160628913145
+1,1,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.575,1.122971171832481
+1,1,7,35,LOO-tuned AI and expert weights,1.25,1.0,5.0,0.545,1.184794512858072
+1,1,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.565,1.1313046469602976
+1,1,8,40,LOO-tuned AI and expert weights,1.5,1.0,5.0,0.54,1.273523391195613
+1,1,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.455,1.5902764797210691
+1,1,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.47,1.4486470222473145
+1,1,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.475,1.3501569032669067
+1,1,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.465,1.3200769424438477
+1,1,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.515,1.2940163612365725
+1,1,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.485,1.304058074951172
+1,1,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.495,1.310569167137146
+1,2,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.535,1.1215956049904436
+1,2,2,10,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.52,1.4599028930367701
+1,2,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.555,1.1107130405178953
+1,2,3,15,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.53,1.4494746628820456
+1,2,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.55,1.1039997597960116
+1,2,4,20,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.525,1.4420627383627356
+1,2,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.55,1.081483358696983
+1,2,5,25,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.515,1.4349622952532934
+1,2,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.535,1.0900340675080409
+1,2,6,30,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.52,1.4206009142173581
+1,2,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.555,1.0688334835724689
+1,2,7,35,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.56,1.208509483833077
+1,2,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.545,1.0676456926635576
+1,2,8,40,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.53,1.4009844225875232
+1,2,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.485,1.5262420177459717
+1,2,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.49,1.4917558431625366
+1,2,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.53,1.4132754802703855
+1,2,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.535,1.254399061203003
+1,2,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.545,1.2150835990905762
+1,2,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.0673627853393557
+1,2,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.58,1.0351272821426392
+1,3,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.535,1.124990310130015
+1,3,2,10,LOO-tuned AI and expert weights,1.0,1.0,20.0,0.535,1.124990310130015
+1,3,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.535,1.1171628681236856
+1,3,3,15,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.565,1.1720345121028855
+1,3,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,1.0,0.59,1.2300734542519007
+1,3,4,20,LOO-tuned AI and expert weights,1.5,1.0,1.0,0.57,1.3501698794055161
+1,3,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.58,1.064665929031185
+1,3,5,25,LOO-tuned AI and expert weights,1.25,1.0,5.0,0.57,1.1303289966221064
+1,3,6,30,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.555,1.1116281358286813
+1,3,6,30,LOO-tuned AI and expert weights,1.5,0.5,1.0,0.525,1.2701838615629075
+1,3,7,35,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.55,1.096640116030842
+1,3,7,35,LOO-tuned AI and expert weights,1.5,0.5,1.0,0.545,1.2550132337207307
+1,3,8,40,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.58,1.0932933437313481
+1,3,8,40,LOO-tuned AI and expert weights,1.5,0.5,1.0,0.54,1.2492662743022491
+1,3,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.53,1.2932058572769165
+1,3,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.545,1.3855355978012085
+1,3,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.59,1.3853111267089844
+1,3,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.3061686754226685
+1,3,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.595,1.3507332801818848
+1,3,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.595,1.273982048034668
+1,3,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.2550880908966064
+2,1,2,10,"queried-confusion fusion, AI weight=1",1.0,1.5,20.0,0.59,1.0709508266304446
+2,1,2,10,LOO-tuned AI and expert weights,1.5,2.0,20.0,0.57,1.2003529118009528
+2,1,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.57,1.1015201895213753
+2,1,3,15,LOO-tuned AI and expert weights,2.0,2.0,20.0,0.555,1.3971279130318468
+2,1,4,20,"queried-confusion fusion, AI weight=1",1.0,1.5,5.0,0.565,1.1285987733642455
+2,1,4,20,LOO-tuned AI and expert weights,2.0,2.0,5.0,0.555,1.485887454602826
+2,1,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.545,1.1105065367333358
+2,1,5,25,LOO-tuned AI and expert weights,1.5,1.5,20.0,0.56,1.1993179789290096
+2,1,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.565,1.081069333521767
+2,1,6,30,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.535,1.2439781559912948
+2,1,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.565,1.0652427455562665
+2,1,7,35,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.55,1.2259939969691918
+2,1,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.57,1.06403739782239
+2,1,8,40,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.55,1.2247994354693952
+2,1,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.49,1.4232232570648191
+2,1,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.555,1.456925868988037
+2,1,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.52,1.5350733995437622
+2,1,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.52,1.4946110248565674
+2,1,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.364779353141785
+2,1,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.58,1.3545849323272705
+2,1,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.575,1.2342735528945925
+2,2,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.61,1.0467750555699609
+2,2,2,10,LOO-tuned AI and expert weights,1.25,1.0,5.0,0.575,1.111374083719494
+2,2,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.6,1.0316431789637432
+2,2,3,15,LOO-tuned AI and expert weights,1.25,1.5,20.0,0.605,1.0965997028911614
+2,2,4,20,"queried-confusion fusion, AI weight=1",1.0,1.5,20.0,0.6,1.0127527171912372
+2,2,4,20,LOO-tuned AI and expert weights,1.25,1.5,20.0,0.595,1.0766224380545044
+2,2,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.59,1.0384256214177747
+2,2,5,25,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.575,1.107101210415105
+2,2,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.6,1.0194413231243895
+2,2,6,30,LOO-tuned AI and expert weights,1.0,1.0,20.0,0.6,1.0194413231243895
+2,2,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.61,1.0235181907355133
+2,2,7,35,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.585,1.0911944923351422
+2,2,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.615,1.0140630435232243
+2,2,8,40,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.595,1.0805883309009556
+2,2,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.485,1.551509976387024
+2,2,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.6,1.2172130346298218
+2,2,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.0956792831420898
+2,2,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.585,1.0926032066345217
+2,2,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.6,1.0699368715286257
+2,2,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.62,1.0546075105667114
+2,2,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.64,1.0535974502563477
+2,3,2,10,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.585,1.1147763037644816
+2,3,2,10,LOO-tuned AI and expert weights,2.0,0.5,1.0,0.555,1.4694739204768654
+2,3,3,15,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.55,1.1190731054377598
+2,3,3,15,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.55,1.4254888823215646
+2,3,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.59,1.0642105048103514
+2,3,4,20,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.55,1.4108865999576765
+2,3,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.6,1.1087634241683542
+2,3,5,25,LOO-tuned AI and expert weights,2.0,1.0,5.0,0.565,1.4460770783448131
+2,3,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.59,1.0456387129069658
+2,3,6,30,LOO-tuned AI and expert weights,2.0,1.5,20.0,0.58,1.3816726502108905
+2,3,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.595,1.0436092323392865
+2,3,7,35,LOO-tuned AI and expert weights,2.0,1.5,20.0,0.59,1.3836836907854084
+2,3,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.63,1.038213595851322
+2,3,8,40,LOO-tuned AI and expert weights,2.0,1.5,20.0,0.595,1.3760624010840872
+2,3,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.465,1.3993520736694336
+2,3,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.485,1.4289462566375732
+2,3,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.54,1.3099483251571655
+2,3,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.555,1.2753708362579346
+2,3,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.59,1.18049156665802
+2,3,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.6,1.1732780933380127
+2,3,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.61,1.1697568893432615
+3,1,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.635,1.0229748977450308
+3,1,2,10,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.595,1.2534787589068135
+3,1,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.625,1.0115412163266184
+3,1,3,15,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.58,1.2692288927934074
+3,1,4,20,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.58,1.0864108194721473
+3,1,4,20,LOO-tuned AI and expert weights,2.0,0.5,20.0,0.56,1.384791783457118
+3,1,5,25,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.58,1.0618858376628912
+3,1,5,25,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.58,1.260955015756857
+3,1,6,30,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.585,1.0770100064221715
+3,1,6,30,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.575,1.2749228422936538
+3,1,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.625,1.009294823924242
+3,1,7,35,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.56,1.2666867971049494
+3,1,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.635,0.9934261973596422
+3,1,8,40,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.565,1.241716815112516
+3,1,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.535,1.2598025798797607
+3,1,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.555,1.2500784397125244
+3,1,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.585,1.214841604232788
+3,1,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.2156356573104858
+3,1,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.6,1.162892460823059
+3,1,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.1591882705688477
+3,1,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.61,1.0642340183258057
+3,2,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,1.0,0.465,1.253493163249514
+3,2,2,10,LOO-tuned AI and expert weights,1.0,1.0,1.0,0.465,1.253493163249514
+3,2,3,15,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.555,1.1078388671492416
+3,2,3,15,LOO-tuned AI and expert weights,1.0,0.5,5.0,0.555,1.1078388671492416
+3,2,4,20,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.565,1.0696699672513703
+3,2,4,20,LOO-tuned AI and expert weights,1.25,0.5,5.0,0.555,1.1193168220213148
+3,2,5,25,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.6,1.028813370988235
+3,2,5,25,LOO-tuned AI and expert weights,1.5,0.5,1.0,0.565,1.1374326445164342
+3,2,6,30,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.565,1.075962750895017
+3,2,6,30,LOO-tuned AI and expert weights,1.5,0.5,1.0,0.55,1.1857302049268714
+3,2,7,35,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.58,1.0723553050703925
+3,2,7,35,LOO-tuned AI and expert weights,1.25,0.5,5.0,0.555,1.1220476238478612
+3,2,8,40,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.58,1.0589333316454341
+3,2,8,40,LOO-tuned AI and expert weights,1.5,0.5,5.0,0.545,1.1769685109181374
+3,2,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.37,1.802820086479187
+3,2,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.49,1.2516894340515137
+3,2,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.525,1.2140672206878662
+3,2,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.56,1.1742124557495115
+3,2,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.2200641632080078
+3,2,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.585,1.1008697748184204
+3,2,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.6,1.0677406787872314
+3,3,2,10,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.575,1.0707866047088512
+3,3,2,10,LOO-tuned AI and expert weights,0.75,0.5,20.0,0.605,1.0506447791448998
+3,3,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.645,1.0108631135725588
+3,3,3,15,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.63,1.0423828328175622
+3,3,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.655,1.0464733802522899
+3,3,4,20,LOO-tuned AI and expert weights,1.0,1.0,5.0,0.655,1.0464733802522899
+3,3,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.64,0.9877438877764024
+3,3,5,25,LOO-tuned AI and expert weights,1.25,1.0,20.0,0.625,1.0212427719824104
+3,3,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.635,0.9831708870416799
+3,3,6,30,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.595,1.0819191347315167
+3,3,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.635,0.9841733041433272
+3,3,7,35,LOO-tuned AI and expert weights,1.5,1.0,20.0,0.595,1.0869463043426353
+3,3,8,40,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.59,1.045888778666149
+3,3,8,40,LOO-tuned AI and expert weights,1.25,0.5,1.0,0.575,1.0917402436640047
+3,3,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.495,1.3845669031143188
+3,3,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.575,1.2887606620788574
+3,3,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.585,1.2889976501464844
+3,3,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.1107372045516968
+3,3,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.58,1.1017367839813232
+3,3,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.0335735082626345
+3,3,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.0693161487579346
+4,1,2,10,"queried-confusion fusion, AI weight=1",1.0,1.0,1.0,0.565,1.290061234829223
+4,1,2,10,LOO-tuned AI and expert weights,2.0,2.0,5.0,0.585,1.5904919252758916
+4,1,3,15,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.6,1.099684001384957
+4,1,3,15,LOO-tuned AI and expert weights,2.0,1.5,20.0,0.62,1.2867382691929163
+4,1,4,20,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.595,1.1042732420286188
+4,1,4,20,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.565,1.498185333581235
+4,1,5,25,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.59,1.146632209235838
+4,1,5,25,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.575,1.559254659100544
+4,1,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.59,1.0911633019920983
+4,1,6,30,LOO-tuned AI and expert weights,2.0,1.0,5.0,0.59,1.2714956023065698
+4,1,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.585,1.1007374176985198
+4,1,7,35,LOO-tuned AI and expert weights,2.0,1.0,5.0,0.585,1.2760959319349492
+4,1,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.6,1.03697297539463
+4,1,8,40,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.6,1.2302529039047994
+4,1,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.4652838706970217
+4,1,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.555,1.5103000402450562
+4,1,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.525,1.495152235031128
+4,1,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.54,1.5182745456695557
+4,1,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.54,1.3849303722381592
+4,1,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.2791550159454346
+4,1,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.565,1.2941378355026243
+4,2,2,10,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.575,1.0791548821636991
+4,2,2,10,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.575,1.2371516980368915
+4,2,3,15,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.565,1.0954114388917435
+4,2,3,15,LOO-tuned AI and expert weights,2.0,0.5,20.0,0.535,1.3090341390491074
+4,2,4,20,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.58,1.0759043781600608
+4,2,4,20,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.58,1.2328813735615543
+4,2,5,25,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.57,1.087203797410563
+4,2,5,25,LOO-tuned AI and expert weights,2.0,0.5,20.0,0.54,1.3014227525745523
+4,2,6,30,"queried-confusion fusion, AI weight=1",1.0,0.5,20.0,0.57,1.083129107514163
+4,2,6,30,LOO-tuned AI and expert weights,2.0,0.5,20.0,0.54,1.2975051784112241
+4,2,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.625,1.0065185898038866
+4,2,7,35,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.58,1.222892842602463
+4,2,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.62,0.9952839973535107
+4,2,8,40,LOO-tuned AI and expert weights,2.0,1.0,20.0,0.59,1.208373387151476
+4,2,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.505,1.3021267652511597
+4,2,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.54,1.1916053295135498
+4,2,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.52,1.266141057014465
+4,2,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.535,1.2296080589294434
+4,2,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.57,1.1898565292358398
+4,2,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.59,1.1704816818237305
+4,2,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.59,1.136616587638855
+4,3,2,10,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.47,1.2192097453447515
+4,3,2,10,LOO-tuned AI and expert weights,1.25,0.5,1.0,0.475,1.245802605777241
+4,3,3,15,"queried-confusion fusion, AI weight=1",1.0,0.5,5.0,0.555,1.0997808848821966
+4,3,3,15,LOO-tuned AI and expert weights,1.5,0.5,5.0,0.535,1.1791416165372517
+4,3,4,20,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.565,1.0995823475688484
+4,3,4,20,LOO-tuned AI and expert weights,1.5,1.0,5.0,0.57,1.1280265013620812
+4,3,5,25,"queried-confusion fusion, AI weight=1",1.0,0.5,1.0,0.565,1.1039464608370153
+4,3,5,25,LOO-tuned AI and expert weights,2.0,1.0,1.0,0.565,1.4156266998088591
+4,3,6,30,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.625,1.060703960040306
+4,3,6,30,LOO-tuned AI and expert weights,1.5,1.0,5.0,0.595,1.1369068229881822
+4,3,7,35,"queried-confusion fusion, AI weight=1",1.0,1.0,5.0,0.625,1.048561801136121
+4,3,7,35,LOO-tuned AI and expert weights,1.5,1.0,5.0,0.605,1.1241910960063846
+4,3,8,40,"queried-confusion fusion, AI weight=1",1.0,1.0,20.0,0.62,1.0051416401929847
+4,3,8,40,LOO-tuned AI and expert weights,2.0,1.5,20.0,0.635,1.2367629029464096
+4,3,2,10,"neural evaluator, fixed product fusion",1.0,1.0,,0.34,1.7878445386886597
+4,3,3,15,"neural evaluator, fixed product fusion",1.0,1.0,,0.46,1.4281049966812134
+4,3,4,20,"neural evaluator, fixed product fusion",1.0,1.0,,0.505,1.3634015321731567
+4,3,5,25,"neural evaluator, fixed product fusion",1.0,1.0,,0.53,1.3773581981658936
+4,3,6,30,"neural evaluator, fixed product fusion",1.0,1.0,,0.605,1.2738826274871826
+4,3,7,35,"neural evaluator, fixed product fusion",1.0,1.0,,0.595,1.2094556093215942
+4,3,8,40,"neural evaluator, fixed product fusion",1.0,1.0,,0.59,1.1770979166030884

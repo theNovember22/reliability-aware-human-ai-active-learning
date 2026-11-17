@@ -1,0 +1,82 @@
+{
+  "experiment": "C: evaluator-reliability-adaptive Human-AI fusion",
+  "question": "Does an MC-dropout evaluator reliability estimate improve Human-AI fusion by changing the evaluator's contribution per case?",
+  "dataset": "DR-5 cached AI probability, feature, true-label, and human-label CSVs",
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "budgets_total_queries": [
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40
+  ],
+  "active_annotation_policy": "The same Experiment B MWAC median-window then highest-AI-entropy acquisition policy is used once per fold/seed. Both fusion conditions share the exact evaluator checkpoints and acquired labels.",
+  "fixed_fusion": "Existing product-rule fusion with evaluator-logit coefficient beta=1, averaged over MC-dropout passes.",
+  "reliability_adaptive_fusion": "Per-case evaluator coefficient beta_i = clip(1 - MI_i/log(5), 0, 1). Higher evaluator MC mutual information lowers its fusion contribution; AI probability contribution remains coefficient 1.",
+  "reliability_metric": "Existing evaluator MC-dropout mutual information: H(mean pass probability) - mean(pass entropy), implemented by src.dr5.core.mutual_information; 20 forward passes by default.",
+  "kl_definition": "Mean KL(one-hot True Label || fused predictive distribution); for one-hot labels this equals categorical NLL.",
+  "metrics": [
+    "accuracy",
+    "kl_divergence"
+  ],
+  "query_cost": "10 to 40 development human labels, with one query per class per round. Test Human Label is required only as the input to the already-established fusion evaluation and is not used for acquisition, evaluator fitting, or reliability weights.",
+  "evaluator_training_epochs": 100,
+  "seed_schedule": {
+    "run_seed": "fold*1000 + seed",
+    "initial_sampling": "run_seed",
+    "evaluator_initialization": "run_seed at each budget",
+    "test_mc_dropout": "run_seed + 70000 + labels_per_class"
+  },
+  "final_40_query_summary": {
+    "fixed_fusion_weight": {
+      "accuracy_mean": 0.5856666666666667,
+      "accuracy_std": 0.03534860406754149,
+      "kl_divergence_mean": 1.167124899228414,
+      "kl_divergence_std": 0.10562210436824938
+    },
+    "reliability_adaptive_weight": {
+      "accuracy_mean": 0.586,
+      "accuracy_std": 0.03591656999213596,
+      "kl_divergence_mean": 1.1659054517745973,
+      "kl_divergence_std": 0.10498164834953769
+    }
+  },
+  "paired_test": "Two-sided paired t-tests over fold/seed runs at each budget; descriptive only, no multiplicity adjustment.",
+  "limitations": [
+    "The reliability weight is a predeclared monotone heuristic, not a calibrated probability that the evaluator is correct.",
+    "The evaluator is still trained with the existing beta=1 fusion objective; only inference-time fusion weights are adapted.",
+    "The existing five test folds have been inspected and are exploratory; patient IDs are unavailable.",
+    "KL to one-hot truth is mathematically the same information as NLL, so these metrics are not independent evidence."
+  ],
+  "git_commit": "5be877dd9126da3919de48e1c0f54f23029fbe77",
+  "source_hashes": {
+    "experiment_c": "81e68561e2fdd73820a52835a62bd341dc04c243f8a470e9ad705728b138f99a",
+    "experiment_b": "52f5cbc70a020c924fbc2a9f439db366210e8fb43e31ca6f8a577a8e4874b297",
+    "dr5_core": "170ec10af65ab3a1e91085f4e771d8bd66a4c39ee594e9837fa9a1037c599bfd"
+  },
+  "input_hashes": {
+    "fold0_train": "e86d32eca52eb9537290b6ecaa76b73b4f6f69ad5fb125f18f4c43068c927295",
+    "fold0_test": "9c9f10694ee83aa03614ae9395c77994ff9606a8149a5c3c25dcc0aaa3dc14ed",
+    "fold1_train": "684b800c95048c0d9db5eab8349385d965b7050565899718035014c8d424b3a2",
+    "fold1_test": "6c2243ee32b86db55c35ef19dbb3ff1ed7dea4472146a72eb36794b79b405f87",
+    "fold2_train": "eb734ceaaa75851489726a9c6004780d35f2effa312bf8ed771ea7be2d575f09",
+    "fold2_test": "f67d56e97cc8fea124d2dc0bb44ba8f8edd4f73c4dd7f0b14e6d607eaf130d2d",
+    "fold3_train": "7a0e15a33758a34bd88820a1f7884a0384afa449a8959780966eec93ffa2fbad",
+    "fold3_test": "59057e7eb5f36875116ace8a0df84e1871366d92003d41e6072ec305d296f58a",
+    "fold4_train": "cbafb6a29b9f8ce52695a77350b9b736291742a924306625c0dd9c924a264f80",
+    "fold4_test": "e9a873230a3916c3a979c5d3041f8a587fba382a86bc5a30641ac143691834ad"
+  }
+}

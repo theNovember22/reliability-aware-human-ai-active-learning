@@ -1,0 +1,64 @@
+{
+  "experiment": "C follow-up: LOO-calibrated AI/expert fusion weights",
+  "question": "Can train-only leave-one-out selection of AI and queried-expert fusion weights improve final fusion accuracy/KL?",
+  "selection": "Reuses the exact MWAC + AI entropy acquisition IDs from the completed Experiment B/C trace for every fold, seed and budget.",
+  "methods": [
+    "queried-confusion fusion, AI weight=1",
+    "LOO-tuned AI and expert weights",
+    "neural evaluator, fixed product fusion"
+  ],
+  "weight_grid": {
+    "machine_alpha": [
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5,
+      2.0
+    ],
+    "expert_beta": [
+      0.0,
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ],
+    "prior_mass": [
+      1.0,
+      5.0,
+      20.0
+    ]
+  },
+  "selection_criterion": "Leave-one-out NLL on acquired human-label pairs. Each held-out response is removed from both confusion counts and the shared accuracy prior.",
+  "test_usage": "Test labels and test human responses are used only for the established final fusion evaluation. Neither enters weight fitting or acquisition.",
+  "kl_definition": "KL(one-hot true label || prediction), equal to categorical NLL.",
+  "final_40_query_summary": {
+    "LOO-tuned AI and expert weights": {
+      "accuracy_mean": 0.572,
+      "accuracy_std": 0.031098920514108796,
+      "kl_divergence_mean": 1.2421924242005364,
+      "kl_divergence_std": 0.08998052383948849
+    },
+    "neural evaluator, fixed product fusion": {
+      "accuracy_mean": 0.5856666666666667,
+      "accuracy_std": 0.03534860406754149,
+      "kl_divergence_mean": 1.167124899228414,
+      "kl_divergence_std": 0.10562210436824938
+    },
+    "queried-confusion fusion, AI weight=1": {
+      "accuracy_mean": 0.5936666666666667,
+      "accuracy_std": 0.02621795095694841,
+      "kl_divergence_mean": 1.062487088575467,
+      "kl_divergence_std": 0.05736965217007698
+    }
+  },
+  "limitations": [
+    "Previously inspected test folds are exploratory, not confirmatory.",
+    "The 15 runs share five test folds; SD and paired p-values are descriptive.",
+    "The LOO-selected weight grid is a new model variant; any further grid changes require nested training-only validation."
+  ],
+  "source_sha256": {
+    "experiment": "e75d2d502909288c33b81ededbcd2b83690d2109f28eec9515766b71a79aa31f",
+    "budget_core": "780d04d7a82a425b3aca1ab621d99aae50d6f1632bffd84e61af3ba3a8081416"
+  }
+}
